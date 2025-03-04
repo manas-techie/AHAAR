@@ -1,55 +1,74 @@
 <% layout("layout/boilerplate.ejs") -%>
 
-    <div class="row mt-5">
-     <div class="col-8 offset-2"> 
+<div class="row mt-5">
+  <div class="col-8 offset-2">
     <h2>create a new restaurant</h2>
-    <form method="POST" action="/restaurant" novalidate class="needs-validation" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-        <input type="text" name="restaurant[title]"
-            placeholder="enter title" class="form-control" required/>
-            <div class="invalid-feedback">
-                please give a title 
-              </div>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea name="restaurant[description]"
-            placeholder="write somthing about your property" rows="5"
-            class="form-control" required></textarea>
-            <div class="invalid-feedback">
-                please give a description   
-              </div>
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Image Url</label>
-            <input type="text" name="restaurant[image]"
-            placeholder="enter image url" class="form-control"/>
-        </div>
-        <!-- <div c  lass="mb-3">
+    <form
+      method="POST"
+      action="/restaurant"
+      novalidate
+      class="needs-validation"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          name="restaurant[title]"
+          placeholder="enter title"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">please give a title</div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="restaurant[description]"
+          placeholder="write somthing about your property"
+          rows="5"
+          class="form-control"
+          required
+        ></textarea>
+        <div class="invalid-feedback">please give a description</div>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image Url</label>
+        <input
+          type="text"
+          name="restaurant[image]"
+          placeholder="enter image url"
+          class="form-control"
+        />
+      </div>
+      <!-- <div c  lass="mb-3">
             <label for="image" class="form-label">Upload image</label>
             <input type="file" name="restaurant[image]"class="form-control" required/>
         </div> -->
-        <div class="row">
-        <div class="mb-3 col-md-6">           
-            <label for="location" class="form-label">Location</label>
-            <input type="text" name="restaurant[location]"
-            placeholder="enter location" class="form-control" required/>
-            <div class="invalid-feedback">
-                location is required
-              </div>
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label for="location" class="form-label">Location</label>
+          <input
+            type="text"
+            name="restaurant[location]"
+            placeholder="enter location"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">location is required</div>
         </div>
-        <div class="mb-3 col-md-6" >
-            <label for="country" class="form-label">Country</label>
-             <input type="text" name="restaurant[country]"
-            placeholder="enter country" class="form-control" required/>
-            <div class="invalid-feedback">
-                country is required 
-              </div>
+        <div class="mb-3 col-md-6">
+          <label for="country" class="form-label">Country</label>
+          <input
+            type="text"
+            name="restaurant[country]"
+            placeholder="enter country"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">country is required</div>
         </div>
-    </div>
-        <button class="btn btn-primary mb-3"> add</button>
-
+      </div>
+      <button class="btn btn-primary mb-3">add</button>
     </form>
-    </div>
-    </div>
+  </div>
+</div>

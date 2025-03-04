@@ -8,6 +8,7 @@ const restaurantModel = new Schema({
     },
     description: {
         type: String,
+        required: true,
     },
     image: {
         type: String,
@@ -17,20 +18,13 @@ const restaurantModel = new Schema({
     },
     location: {
         type: String,
+        required: true,
     },
     country: {
         type: String,
+        required: true,
     },
-    reviews: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Review'
-        }
-    ],
-    owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
+
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantModel);
