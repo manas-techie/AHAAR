@@ -15,9 +15,6 @@ const restaurantModel = new Schema({
         set: (v) => v === "" ? "https://icons.iconarchive.com/icons/aha-soft/large-home/256/Property-icon.png " : v,
 
     },
-    price: {
-        type: Number,
-    },
     location: {
         type: String,
     },
