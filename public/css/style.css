@@ -1,0 +1,352 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital@0;1&display=swap");
+
+body,
+html {
+  font-family: "Plus Jakarta Sans", serif !important;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  flex: 1;
+}
+/* Navbar code Starts Here */
+
+.navbar-custom {
+  background-color: #111; /* Dark background */
+}
+.navbar-brand {
+  font-family: "Georgia", serif;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+.navbar-nav .nav-link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: 1rem;
+  font-family: "Georgia", serif;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(185, 185, 76, 0.856);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.navbar-nav .nav-link:hover::after {
+  transform: scaleX(1);
+}
+.btn-custom {
+  background-color: #f5f5dc; /* Light background */
+  color: #111;
+  border-radius: 0;
+  padding: 0.5rem 1.5rem;
+  font-family: "Georgia", serif;
+}
+.btn-custom:hover {
+  background-color: #ebeb8c;
+  border: 2px solid white;
+}
+
+.navbar .btn-custom {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+}
+
+@media (max-width: 991px) {
+  /* Adjust for smaller screens */
+  .navbar .btn-custom {
+    position: static;
+    margin-left: auto;
+  }
+}
+
+/* Navbar code Ends Here */
+
+/* Footer Code Starts Here */
+
+.footer {
+  background: black; /* Replace with your actual image */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+  min-height: 35vh; /* No fixed positioning */
+  width: 100%;
+}
+
+.footer::after {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.footer-brand {
+  font-family: "Georgia", serif;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+}
+
+.footer-divider {
+  width: 50px;
+  height: 2px;
+  background-color: gold;
+  margin: 10px auto;
+}
+
+.social-icons i {
+  margin: 0 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.social-icons i:hover {
+  color: gold;
+}
+
+.footer-line {
+  border-color: rgba(255, 255, 255, 0.2);
+  margin: 20px 0;
+}
+
+.footer-text {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Footer Code Ends Here */
+
+/* About Us Code Starts Here */
+.about-container {
+  background-image: url("/assets/bg.png"); /* Replace with your actual image */
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100% !important;
+  height: 70vh !important;
+}
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+  gap: 50px;
+  position: relative;
+}
+
+/* Content sections */
+.about-content {
+  max-width: 300px;
+}
+
+/* Headings */
+.about-heading {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #dcca87;
+}
+
+/* Text */
+.about-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* Buttons */
+.about-button {
+  padding: 10px 20px;
+  background-color: #dcca87;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.about-button:hover {
+  background-color: #bfa75e;
+}
+
+/* Image styling */
+.about-image img {
+  height: 300px;
+}
+
+/* About Us Code Ends Here */
+
+/* restaurant section */
+
+.restaurant-card {
+  border: none !important;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease-in-out;
+  width: calc(
+    33.333% - 2rem
+  ); /* Adjust width to fit 3 cards per row with gap */
+}
+
+.restaurant-card:hover {
+  transform: scale(1.05);
+}
+
+.card-image {
+  border-radius: 1rem !important;
+  width: 100% !important;
+  height: 20rem;
+  object-fit: cover !important;
+}
+
+.card-body {
+  padding: 1rem !important;
+}
+
+.card-text {
+  font-weight: 400 !important;
+  font-size: 1rem;
+  color: #333;
+}
+
+.listing-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-img-overlay {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card-img-overlay:hover {
+  opacity: 0.8;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 768px) {
+  .restaurant-card {
+    width: calc(50% - 2rem); /* Adjust width to fit 2 cards per row with gap */
+  }
+
+  .card-image {
+    height: 15rem;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .restaurant-card {
+    width: 100% !important; /* Full width for small screens */
+  }
+}
+
+
+/* Login Design code */
+
+.login-body{
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	font-family: 'Jost', sans-serif;
+	background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+}
+
+.main{
+	width: 350px;
+	height: 500px;
+	background: red;
+	overflow: hidden;
+	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+	border-radius: 10px;
+	box-shadow: 5px 20px 50px #000;
+}
+#chk{
+	display: none;
+}
+.signup{
+	position: relative;
+	width:100%;
+	height: 100%;
+}
+label{
+	color: #fff;
+	font-size: 2.3em;
+	justify-content: center;
+	display: flex;
+	margin: 50px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+}
+input{
+	width: 60%;
+	height: 10px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 12px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+button{
+	width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: #573b8a;
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 30px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+button:hover{
+	background: #6d44b8;
+}
+.login{
+	height: 460px;
+	background: #eee;
+	border-radius: 60% / 10%;
+	transform: translateY(-180px);
+	transition: .8s ease-in-out;
+}
+.login label{
+	color: #573b8a;
+	transform: scale(.6);
+}
+
+#chk:checked ~ .login{
+	transform: translateY(-500px);
+}
+#chk:checked ~ .login label{
+	transform: scale(1);	
+}
+#chk:checked ~ .signup label{
+	transform: scale(.6);
+}

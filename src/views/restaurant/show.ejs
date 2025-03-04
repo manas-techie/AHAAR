@@ -1,0 +1,20 @@
+<% layout('layout/boilerplate') %>
+<body>
+    <div class="container mt-5"></div>
+        <div class="row"></div>
+            <div class="col-md-8 offset-md-2">
+                <h5 class="card-title"><%= restaurant.title %></h5>
+                <div class="card restaurant-card"></div>
+                    <img src="<%= restaurant.image %>" class="card-img-top card-image" alt="image">
+                    <div class="card-body"></div>
+                        <p class="card-text"><%= restaurant.description %></p>
+                        <ul class="list-group list-group-flush"></ul>
+                            <li class="list-group-item"><strong>Address:</strong> </li>
+                            <li class="list-group-item"><strong>Phone:</strong> </li>
+                            <li class="list-group-item"><strong>Website:</strong> <a href=""></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
