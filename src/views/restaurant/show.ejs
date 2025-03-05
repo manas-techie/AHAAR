@@ -1,26 +1,106 @@
 <% layout('layout/boilerplate') %>
 <body>
-    <div class="container mt-5"></div>
-        <div class="row"></div>
+    <div class="container mt-5">
+        <div class="row">
             <div class="col-md-8 offset-md-2">
                 <h5 class="card-title"><%= restaurant.title %></h5>
                 <div class="card restaurant-card"></div>
-                    <img src="<%= restaurant.image %>" class="card-img-top card-image" alt="image">
-                    <div class="card-body"></div>
-                        <p class="card-text"><%= restaurant.description %></p>
-                        <ul class="list-group list-group-flush"></ul>
-                            <li class="list-group-item"><strong>Address:</strong> </li>
-                            <li class="list-group-item"><strong>Phone:</strong> </li>
-                            <li class="list-group-item"><strong>Website:</strong> <a href=""></a></li>
-                        </ul>
+                <img src="<%= restaurant.image %>"
+                    class="card-img-top card-image" alt="image">
+                <div class="card-body"></div>
+                <p class="card-text"><%= restaurant.description %></p>
+                <ul class="list-group list-group-flush"></ul>
+                <li class="list-group-item"><strong>Address:</strong> </li>
+                <li class="list-group-item"><strong>Phone:</strong> </li>
+                <li class="list-group-item"><strong>Website:</strong> <a
+                        href></a></li>
+            </ul>
+        </div>
+        <div class="restaurant-btns row mt-2 mb-2">
+            <a href="/restaurant/<%= restaurant._id %>/edit"
+                class="btn btn-success col-sm-4 offset-sm-2">Edit</a>
+            <form action="/restaurant/<%= restaurant._id %>?_method=DELETE"
+                method="POST" class="col mb-2">
+                <button class="Delete-btn btn btn-danger">Delete</button>
+            </form>
+        </div>
+        <hr>
+        <div class="rating mt-3 mb-3">
+            <h4>Leave a review</h4>
+            <form action="/restaurant/<%= restaurant._id %>/reviews"
+                method="POST"
+                novalidate class="needs-validation">
+                <div class="rating mt-3 mb-3">
+
+                    <fieldset class="starability-slot">
+                        <legend></legend>
+                        <input type="radio" id="no-rate"
+                            class="input-no-rate"
+                            name="review[rating]" value="1 " checked
+                            aria-label="No rating." />
+                        <input type="radio" id="first-rate1"
+                            name="review[rating]"
+                            value="1" />
+                        <label for="first-rate1" title="Terrible">1
+                            star</label>
+                        <input type="radio" id="first-rate2"
+                            name="review[rating]"
+                            value="2" />
+                        <label for="first-rate2" title="Not good">2
+                            stars</label>
+                        <input type="radio" id="first-rate3"
+                            name="review[rating]"
+                            value="3" />
+                        <label for="first-rate3" title="Average">3
+                            stars</label>
+                        <input type="radio" id="first-rate4"
+                            name="review[rating]"
+                            value="4" />
+                        <label for="first-rate4" title="Very good">4
+                            stars</label>
+                        <input type="radio" id="first-rate5"
+                            name="review[rating]"
+                            value="5" />
+                        <label for="first-rate5" title="Amazing">5
+                            stars</label>
+                    </fieldset>
+                </div>
+
+                <div>
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea name="review[comment]" id="comment" cols="30"
+                        rows="3" class="form-control" required></textarea>
+                    <div class="invalid-feedback">
+                        please enter a comment
                     </div>
-                    <div class="restaurant-btns row mt-2 mb-2">
-                        <a href="/restaurant/<%= restaurant._id %>/edit" class="btn btn-success col-sm-4 offset-sm-2">Edit</a>
-                        <form action="/restaurant/<%= restaurant._id %>?_method=DELETE" method="POST" class="col mb-2">
-                            <button class="Delete-btn btn btn-danger">Delete</button>
-                        </form>
+                </div>
+                <br>
+                <button class="btn btn-outline-dark">submit</button>
+            </form>
+        </div>
+        <hr>
+
+        <div class="reviews">
+            <p><b>All Reviews</b></p>
+            <div class="row">
+                <div class="card col-5 ms-2 mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@<%= review.author.username
+                            %></h5>
+                        <p class="starability-result card-text"
+                            data-rating="<%= review.rating %>">
+                        </p>
+                        <p class="card-text"><%= review.comment %></p>
+                        <p class="card-text"><%= review.rating %> stars</p>
+
                     </div>
+                    <form class="mb-3 mt-3" method="POST"
+                        action="/restaurant/<%= restaurant._id %>/reviews/<%= review._id %>?_method=DELETE">
+                        <button
+                            class="btn btn-sm btn-dark">delete</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
