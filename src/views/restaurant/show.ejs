@@ -14,6 +14,12 @@
                             <li class="list-group-item"><strong>Website:</strong> <a href=""></a></li>
                         </ul>
                     </div>
+                    <div class="restaurant-btns row mt-2 mb-2">
+                        <a href="/restaurant/<%= restaurant._id %>/edit" class="btn btn-success col-sm-4 offset-sm-2">Edit</a>
+                        <form action="/restaurant/<%= restaurant._id %>?_method=DELETE" method="POST" class="col mb-2">
+                            <button class="Delete-btn btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

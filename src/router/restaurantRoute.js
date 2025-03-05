@@ -29,4 +29,20 @@ router.get('/:id', async (req, res) => {
     res.render('restaurant/show.ejs', { restaurant });
 });
 
+// update route
+router.put('/:id', async (req, res) => {
+    let { id } = req.params;
+    let restaurant = await Restaurant.findByIdAndUpdate(id);
+    await restaurant.save();
+    req.redirect(`/retaurant/${id}`);
+})
+
+//Destroy route
+router.delete('/:id', async (req, res) => {
+    let { id } = req.params;
+    await Restaurant.findByIdAndDelete(id);
+    res.redirect("/restraurant");
+})
+
+
 module.exports = router;

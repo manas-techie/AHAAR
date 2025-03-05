@@ -9,6 +9,7 @@ const session = require('express-session');
 const flash = require('connect-flash')
 const User = require('./model/userRestrationModel.js')
 const ExpressError = require("./utils/expressError.js")
+const methodOverride = require('method-override');
 
 
 require('./db/connectToDB.js');
@@ -32,7 +33,7 @@ const sessionOptions = {
     },
 };
 
-
+app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
