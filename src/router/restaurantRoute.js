@@ -9,7 +9,8 @@ router.get('/', async (req, res) => {
     res.render('restaurant/index.ejs', { allRestaurants });
 });
 
-router.post('/', async(req, res) => {
+//create new restaurant route
+router.post('/', async (req, res) => {
     const newRestaurant = new Restaurant(req.body.restaurant);
     await newRestaurant.save();
     res.redirect("/restaurant");
