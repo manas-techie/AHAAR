@@ -19,6 +19,7 @@ require('./db/connectToDB.js');
 const mainRoute = require('./router/mainRoute.js')
 const restaurantRoute = require('./router/restaurantRoute.js')
 const userRoute = require('./router/userRoute.js');
+const reviewRoute = require('./router/reviewRoute.js');
 // const { useConnection } = require('./model/userRestrationModel.js');
 
 
@@ -61,6 +62,7 @@ app.use((req, res, next) => {
 
 app.use('/restaurant', restaurantRoute)
 app.use('/user', userRoute);
+app.use('/restaurant/:id/review', reviewRoute);
 
 
 

@@ -27,7 +27,7 @@ router.get('/new', (req, res) => {
 
 // show restaurant route
 router.get('/:id', async (req, res) => {
-    const restaurant = await Restaurant.findById(req.params.id);
+    const restaurant = await Restaurant.findById(req.params.id).populate({ path: "reviews", populate: { path: "author" } }).populate("owner");
     res.render('restaurant/show.ejs', { restaurant });
 });
 
