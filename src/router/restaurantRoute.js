@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Restaurant = require('../model/restaurantModel.js');
+const ExpressError = require('../utils/expressError.js');
+
 
 
 // restaurant route
@@ -29,20 +31,30 @@ router.get('/:id', async (req, res) => {
     res.render('restaurant/show.ejs', { restaurant });
 });
 
+//edit restaurant rount
+router.get('/:id/edit', async (req, res) => {
+    let restaurant = await Restaurant.findById(req.params.id);
+    if (!restaurant) {
+        // throw new ExpressError(404, "Page not Found!");
+        res.status(404).send("Page not Found!");
+    }
+    res.render("restaurant/edit.ejs", { restaurant });
+});
+
+
 // update route
 router.put('/:id', async (req, res) => {
     let { id } = req.params;
-    let restaurant = await Restaurant.findByIdAndUpdate(id);
+    let restaurant = await Restaurant.findByIdAndUpdate(id, { ...req.body.restaurant });
     await restaurant.save();
-    req.redirect(`/retaurant/${id}`);
-})
+    res.redirect(`/restaurant/${id}`);
+});
 
 //Destroy route
 router.delete('/:id', async (req, res) => {
     let { id } = req.params;
-    await Restaurant.findByIdAndDelete(id);
-    res.redirect("/restraurant");
-})
-
+    let restaurant = await Restaurant.findByIdAndDelete(id);
+    res.redirect("/restaurant");
+});
 
 module.exports = router;
