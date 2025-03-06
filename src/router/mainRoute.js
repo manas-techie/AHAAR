@@ -6,7 +6,6 @@ router.get('/', (req, res) => {
 })
 
 router.get('/about', (req, res) => {
-    console.log(req.locals.currUser)
     res.render('about');
 });
 
