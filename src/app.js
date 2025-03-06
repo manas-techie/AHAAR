@@ -20,7 +20,6 @@ const mainRoute = require('./router/mainRoute.js')
 const restaurantRoute = require('./router/restaurantRoute.js')
 const userRoute = require('./router/userRoute.js');
 const reviewRoute = require('./router/reviewRoute.js');
-// const { useConnection } = require('./model/userRestrationModel.js');
 
 
 const sessionOptions = {
@@ -41,7 +40,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs', ejsMate)
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use('/', mainRoute);
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -60,6 +59,7 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use('/', mainRoute);
 app.use('/restaurant', restaurantRoute)
 app.use('/user', userRoute);
 app.use('/restaurant/:id/review', reviewRoute);

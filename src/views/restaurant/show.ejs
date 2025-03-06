@@ -17,7 +17,7 @@
                         href></a></li>
             </ul>
         </div>
-        <% if(currUser && currUser._id.equals(restaurant.owner)) {%>
+        <% if(currUser && currUser._id.equals(restaurant.owner._id)) {%>
         <div class="restaurant-btns row mt-2 mb-2">
             <a href="/restaurant/<%= restaurant._id %>/edit"
                 class="btn btn-success col-sm-4 offset-sm-2">Edit</a>

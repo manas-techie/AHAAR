@@ -30,12 +30,12 @@ router.get('/new', isLoggesIn, (req, res) => {
 
 // show restaurant route
 router.get('/:id', async (req, res) => {
-    const restaurant = await Restaurant.findById(req.params.id).populate({ path: "reviews", populate: { path: "author" } }).populate("owner");
+    let { id } = req.params;
+    const restaurant = await Restaurant.findById(id).populate({ path: "reviews", populate: { path: "author" } }).populate("owner");
     if (!restaurant) {
         req.flash('error', 'this restaurant does not exists');
         return res.redirect('/restaurant');
     }
-    console.log(req.user);
     res.render('restaurant/show.ejs', { restaurant });
 });
 
