@@ -1,13 +1,13 @@
 const express = require('express');
 const Restaurant = require('../model/restaurantModel');
 const Review = require('../model/reviewModel');
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 
 router.post('/', async (req, res) => {
     let { id } = req.params;
     let restaurant = await Restaurant.findById(id);
     let newReview = new Review(req.body.review);
-    newReview.author = req.user._id;
+    // newReview.author = req.user._id;
     restaurant.reviews.push(newReview);
     await restaurant.save();
     await newReview.save();

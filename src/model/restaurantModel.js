@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Review = require('./reviewModel');
 
 const restaurantModel = new Schema({
     title: {
@@ -24,17 +25,24 @@ const restaurantModel = new Schema({
         type: String,
         required: true,
     },
-    owner:{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    reviews:[
+
+    reviews: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Review'
         }
-    ]
+    ],
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
 
+});
+
+restaurantModel.post('findOneAndDelete', async function (restaurant) {
+    if (restaurant) {
+        await Review.deleteMany({ _id: { $in: restaurant.reviews } });
+    }
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantModel);

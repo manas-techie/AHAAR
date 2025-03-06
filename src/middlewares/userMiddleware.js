@@ -1,5 +1,13 @@
 const Restaurant = require("../model/restaurantModel.js");
 
+module.exports.isLoggesIn = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        req.session.redirectUrl = req.originalUrl;
+        req.flash("error", "you have to logged in first!");
+        return res.redirect('/user/login');
+    }
+    next();
+}
 
 module.exports.saveRedirectUrl = (req, res, next) => {
     if (req.session.redirectUrl) {
@@ -18,3 +26,4 @@ module.exports.isOwner = async (req, res, next) => {
     }
     next();
 };
+

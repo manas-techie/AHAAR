@@ -8,6 +8,7 @@
                 <img src="<%= restaurant.image %>"
                     class="card-img-top card-image" alt="image">
                 <div class="card-body"></div>
+                <p>created by : @<%= restaurant.owner.username %></p>
                 <p class="card-text"><%= restaurant.description %></p>
                 <ul class="list-group list-group-flush"></ul>
                 <li class="list-group-item"><strong>Address:</strong> </li>
@@ -16,6 +17,7 @@
                         href></a></li>
             </ul>
         </div>
+        <% if(currUser && currUser._id.equals(restaurant.owner)) {%>
         <div class="restaurant-btns row mt-2 mb-2">
             <a href="/restaurant/<%= restaurant._id %>/edit"
                 class="btn btn-success col-sm-4 offset-sm-2">Edit</a>
@@ -24,15 +26,16 @@
                 <button class="Delete-btn btn btn-danger">Delete</button>
             </form>
         </div>
+        <% } %>
         <hr>
         <div class="rating mt-3 mb-3">
             <h4>Leave a review</h4>
-            <form action="/restaurant/<%= restaurant._id %>/reviews"
+            <form action="/restaurant/<%= restaurant._id %>/review"
                 method="POST"
                 novalidate class="needs-validation">
                 <div class="rating mt-3 mb-3">
 
-                    <fieldset class="starability-slot">
+                    <fieldset class="starability-basic">
                         <legend></legend>
                         <input type="radio" id="no-rate"
                             class="input-no-rate"
@@ -83,10 +86,10 @@
         <div class="reviews">
             <p><b>All Reviews</b></p>
             <div class="row">
+                <% for(review of restaurant.reviews) {%>
                 <div class="card col-5 ms-2 mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">@<%= review.author.username
-                            %></h5>
+                        <h5 class="card-title">@</h5>
                         <p class="starability-result card-text"
                             data-rating="<%= review.rating %>">
                         </p>
@@ -95,11 +98,12 @@
 
                     </div>
                     <form class="mb-3 mt-3" method="POST"
-                        action="/restaurant/<%= restaurant._id %>/reviews/<%= review._id %>?_method=DELETE">
+                        action="/restaurant/<%= restaurant._id %>/review/<%= review._id %>?_method=DELETE">
                         <button
                             class="btn btn-sm btn-dark">delete</button>
                     </form>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>

@@ -12,7 +12,6 @@ router.post('/signup', wrapAsync(async (req, res) => {
         let { email, username, password } = req.body;
         const newUser = new User({ email, username });
         let registerUser = await User.register(newUser, password);
-        console.log(registerUser);
         req.login(registerUser, (err) => {
             if (err) {
                 return next(err);
@@ -26,12 +25,13 @@ router.post('/signup', wrapAsync(async (req, res) => {
     }
 }));
 
-router.get('/login', (req, res) => {
+router.get('/login', saveRedirectUrl, (req, res) => {
     res.render('user/login');
 });
 
-router.post('/login', saveRedirectUrl, passport.authenticate("local", { failureRedirect: "/user/login", failureFlash: true }), wrapAsync((req, res) => {
+router.post('/login', saveRedirectUrl, passport.authenticate("local", { failureRedirect: "/user/login", failureFlash: true }), wrapAsync(async (req, res) => {
     req.flash("success", "Welcome back");
+    console.log(res.locals.redirectUrl)
     res.redirect(res.locals.redirectUrl || "/restaurant");
 }));
 

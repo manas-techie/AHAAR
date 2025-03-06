@@ -14,8 +14,16 @@ async function main() {
 }
 
 
+// const initDB = async () => {
+//     await Restaurant.deleteMany({});
+//     await Restaurant.insertMany(initdata.data);
+//     console.log("Data was intialized");
+// };
+
+
 const initDB = async () => {
     await Restaurant.deleteMany({});
+    initdata.data = initdata.data.map((obj) => ({ ...obj, owner: "67c93f4458e42abfc115b5d0" }));
     await Restaurant.insertMany(initdata.data);
     console.log("Data was intialized");
 };
