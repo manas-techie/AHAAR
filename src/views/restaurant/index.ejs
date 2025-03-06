@@ -1,18 +1,24 @@
 <% layout('layout/boilerplate') %>
 <body>
-  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 restaurant-section"
-    style="margin-top: 20px;">
-    <% for(let restaurant of allRestaurants) {%>
-    <a href="/restaurant/<%= restaurant._id %>" class="listing-link">
-      <div class="card col restaurant-card" style="width: 100%;">
-        <img src="<%= restaurant.image %>" class="card-img-top card-image"
-          alt="image">
-        <div class="card-img-overlay"></div>
-        <div class="card-body">
-          <p class="card-text"><%= restaurant.title %></p>
+  <div class="restroIndex">
+    <div
+      class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 restaurant-section"
+    >
+      <% for(let restaurant of allRestaurants) {%>
+      <a href="/restaurant/<%= restaurant._id %>" class="listing-link">
+        <div class="card col restaurant-card" style="width: 100%">
+          <img
+            src="<%= restaurant.image %>"
+            class="card-img-top card-image"
+            alt="image"
+          />
+          <div class="card-img-overlay"></div>
+          <div class="card-body">
+            <p class="card-text"><%= restaurant.title %></p>
+          </div>
         </div>
-      </div>
-    </a>
-    <% } %>
+      </a>
+      <% } %>
+    </div>
   </div>
 </body>

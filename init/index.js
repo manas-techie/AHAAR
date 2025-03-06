@@ -23,7 +23,7 @@ async function main() {
 
 const initDB = async () => {
     await Restaurant.deleteMany({});
-    initdata.data = initdata.data.map((obj) => ({ ...obj, owner: "67c93f4458e42abfc115b5d0" }));
+    initdata.data = initdata.data.map((obj) => ({ ...obj, owner: "67c9b62cb22d0186fbcefaf1" }));
     await Restaurant.insertMany(initdata.data);
     console.log("Data was intialized");
 };

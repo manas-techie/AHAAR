@@ -189,3 +189,22 @@ html {
 
 /* About Us Code Ends Here */
 
+/* Flash Code Starts Here */
+
+.flash-message {
+  position: fixed;
+  top: calc(8vh + 20px); /* Keeps it below the navbar */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1050; /* Ensures it stays on top */
+  min-width: 250px;
+  max-width: 350px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .flash-message {
+      max-width: 90vw;
+  }
+}

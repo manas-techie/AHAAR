@@ -40,3 +40,17 @@ document.addEventListener("DOMContentLoaded", function () {
       }, false)
     })
   })()
+  
+
+
+  // For flash disappear logic
+
+  document.addEventListener("DOMContentLoaded", function () {
+    let flashMessage = document.querySelector(".flash-message");
+    if (flashMessage) {
+        setTimeout(() => {
+            let bsAlert = new bootstrap.Alert(flashMessage);
+            bsAlert.close();
+        }, 3000); // Hide after 3 seconds
+    }
+});
