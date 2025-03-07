@@ -54,3 +54,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000); // Hide after 3 seconds
     }
 });
+
+
+
+// Navbar Dropdown logic
+
+document.addEventListener("DOMContentLoaded", function () {
+  const profileIcon = document.getElementById("profile-icon");
+  const dropdownMenu = document.getElementById("dropdown-menu");
+
+  profileIcon.addEventListener("click", function (event) {
+      event.stopPropagation(); // Prevents event bubbling
+      dropdownMenu.classList.toggle("show");
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", function (event) {
+      if (!profileIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+          dropdownMenu.classList.remove("show");
+      }
+  });
+});

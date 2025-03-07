@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark navbar-custom">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="/assets/logo.png" alt="AHAAR"
+        <a class="navbar-brand" href="#"><img src="/assets/logo.png" alt="Logo"
                 style="height: 50px;"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarNav" aria-controls="navbarNav"
@@ -25,19 +25,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
-                <% if(!currUser) {%>
-                <li class="nav-item ms-auto">
-                    <a class="btn btn-custom" href="/user/login">Sign Up / Sign
-                        In</a>
-                </li>
-                <% } %>
-                <% if(currUser){%>
-                <li class="nav-item ms-auto">
-                    <a class="btn btn-custom" href="/user/logout">Log Out</a>
-                </li>
-                <% } %>
             </ul>
         </div>
+        <% if(!currUser) {%>
+        <span class="nav-item ms-auto">
+            <a class="btn btn-custom" href="/user/login">Sign Up / Sign
+                In</a>
+        </span>
+        <% } %>
+        <% if(currUser){%>
+            <div class="profile-dropdown">
+                <img src="<%= currUser.profilePic || '/assets/default-user.png' %>" alt="Profile" id="profile-icon">
+                <ul class="dropdown-menu" id="dropdown-menu">
+                    <li><a href="/user/profile">Profile</a></li>
+                    <li><a href="/user/settings">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="text-danger" href="/user/logout">Logout</a></li>
+                </ul>
+            </div>
+        <% } %>
 
     </div>
 </nav>
