@@ -75,3 +75,22 @@ document.addEventListener("DOMContentLoaded", function () {
       }
   });
 });
+
+
+// Navbar Toggle Logic
+
+document.addEventListener("DOMContentLoaded", function () {
+  const menuToggle = document.getElementById("menuToggle");
+  const sidebarMenu = document.getElementById("sidebarMenu");
+
+  menuToggle.addEventListener("click", function () {
+      sidebarMenu.classList.toggle("active");
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", function (event) {
+      if (!sidebarMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+          sidebarMenu.classList.remove("active");
+      }
+  });
+});

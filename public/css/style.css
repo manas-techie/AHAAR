@@ -125,6 +125,86 @@ html {
   }
 }
 
+
+@media (max-width: 991px) {
+  /* Move menu toggler to the left */
+  .navbar-toggler {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      z-index: 1051;
+  }
+
+  /* Hide default navbar links */
+  .navbar-collapse {
+      display: none !important;
+  }
+
+  /* Sidebar Navigation (Initially Hidden) */
+  .sidebar-nav {
+      position: fixed;
+      top: 0;
+      left: -250px; /* Initially off-screen */
+      width: 250px;
+      height: 100vh;
+      background-color: #111;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+      transition: left 0.3s ease-in-out;
+      padding-top: 20px;
+      display: flex; /* Initially hidden on large screens */
+      flex-direction: column;
+      z-index: 1050;
+      align-items: center; /* Center logo */
+  }
+
+  /* Show sidebar when active */
+  .sidebar-nav.active {
+      left: 0;
+  }
+
+  /* Logo inside sidebar */
+  .sidebar-nav .sidebar-logo {
+      width: 100px;
+      margin-bottom: 20px;
+  }
+
+  /* Menu items */
+  .sidebar-nav ul {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+  }
+
+  .sidebar-nav .navbar-nav .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      transition: background 0.3s ease-in-out;
+      text-align: center;
+  }
+
+  .sidebar-nav .navbar-nav .nav-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Hide navbar brand logo on small screens */
+  .navbar-brand {
+      display: none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  /* Hide sidebar completely on big screens */
+  .sidebar-nav {
+      display: none !important;
+  }
+
+  /* Show navbar brand logo on large screens */
+  .navbar-brand {
+      display: block !important;
+  }
+}
+
 /* Navbar code Ends Here */
 
 /* Footer Code Starts Here */
