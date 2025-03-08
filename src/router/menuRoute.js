@@ -3,6 +3,7 @@ const router = express.Router();
 const { Category, Item, Menu } = require("../model/menuModel.js");
 const wrapAsync = require('../utils/wrapAsync.js');
 const { isLoggesIn, saveRedirectUrl } = require('../middlewares/userMiddleware.js');
+const QRCode = require("qrcode")
 
 
 // This is the code for displaying create menu form
@@ -14,8 +15,39 @@ router.get("/", isLoggesIn, saveRedirectUrl, async (req, res) => {
 
 // This is the code for displaying the menu
 router.get("/:currUserId", async (req, res) => {
+    const { currUserId } = req.params;
+    const menu = await Menu.findOne({ menuOwner: currUserId })
+        .populate({
+            path: "categories",
+            populate: { path: "items", model: "Item" }
+        });
 
+    if (!menu) {
+        return res.status(404).send("Menu not found for this user.");
+    }
+    res.render("menu/showMenu.ejs", { menu, currUserId });
 })
+
+router.get("/:currUserId/items/:categoryId", async (req, res) => {
+    try {
+        const { currUserId, categoryId } = req.params;
+        const menu = await Menu.findOne({ menuOwner: currUserId })
+            .populate({
+                path: "categories",
+                match: { _id: categoryId },
+                populate: { path: "items", model: "Item" }
+            });
+
+        if (!menu || menu.categories.length === 0) {
+            return res.status(404).json({ message: "Category not found." });
+        }
+
+        res.json(menu.categories[0].items);
+    } catch (error) {
+        console.error("Error fetching items:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 
 
 // This is the code for handle the create menu form
@@ -73,8 +105,21 @@ router.post("/:currUserId", wrapAsync(async (req, res) => {
     // Save or update the menu
     await menu.save();
 
-    res.redirect("/menu"); // Redirect to menu page
+    res.redirect(`/menu/${currUserId}`); // Redirect to menu page
 }));
 
+router.get("/:currUserId/qrcode", (req, res) => {
+    let { currUserId } = req.params;
+    // const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    let fullUrl = `${req.protocol}://192.168.151.241:3000/menu/${currUserId}`;
 
-module.exports = router; 
+    QRCode.toDataURL(fullUrl, function (err, qrUrl) {
+        if (err) {
+            res.status(500).send("Internal server error");
+        }
+        res.render('menu/menuQR.ejs', { qrUrl });
+    })
+
+});
+
+module.exports = router;

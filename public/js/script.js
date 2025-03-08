@@ -142,3 +142,42 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+
+
+
+
+
+
+
+$(document).ready(function () {
+  $(".category-btn").click(function () {
+    let categoryId = $(this).data("category");
+    console.log("hee..........hee..........hoo..........hoo")
+    $.ajax({
+      url: "/menu/items/" + categoryId,
+      method: "GET",
+      success: function (items) {
+        let html = "";
+        if (items.length > 0) {
+          items.forEach(item => {
+            html += `
+                          <div class="col-md-4 mb-3 item-card">
+                              <div class="card">
+                                  <img src="https://via.placeholder.com/200" class="card-img-top" alt="${item.name}">
+                                  <div class="card-body text-center">
+                                      <h5 class="card-title">${item.name}</h5>
+                                      <p class="card-text">£${item.itemPrice.toFixed(2)}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+          });
+        } else {
+          html = '<p class="text-center">No items available.</p>';
+        }
+        $("#itemsContainer").html(html);
+      }
+    });
+  });
+});

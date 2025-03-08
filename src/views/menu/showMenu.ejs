@@ -1,0 +1,81 @@
+<% layout("layout/boilerplate.ejs") %>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="text-center my-4">Menu</h2>
+
+        <!-- Category Buttons -->
+        <div class="d-flex justify-content-center gap-2 mb-4">
+            <% if (menu.categories.length > 0) { %>
+            <% menu.categories.forEach((category, index) => { %>
+            <button class="btn btn-warning category-btn"
+                data-category="<%= category._id %>"
+                <% if (index === 0) { %> id="defaultCategory" <% } %>>
+                <%= category.name %>
+            </button>
+            <% }); %>
+            <% } else { %>
+            <p class="text-center">No categories available.</p>
+            <% } %>
+        </div>
+
+        <!-- Items Section -->
+        <div id="itemsContainer" class="row"></div>
+    </div>
+
+    <% if(currUser && currUser._id == currUserId) { %>
+    <form action="/menu/<%=currUserId %>/qrcode" method="GET">
+        <button type="submit">Generate your QRcode</button>
+    </form>
+    <% } %>
+
+    <script>
+        $(document).ready(function () {
+            let userId = "<%= menu.menuOwner %>"; // Get menu owner ID from EJS
+
+            function loadItems(categoryId) {
+                $.ajax({
+                    url: `/menu/${userId}/items/${categoryId}`,
+                    method: "GET",
+                    success: function (items) {
+                        let html = "";
+                        if (items.length > 0) {
+                            items.forEach(item => {
+                                html += `
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card">
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRexBia36ixX_U4FoPlg0iqv2hZIvfRyeH8LQ&s" class="card-img-top" alt="${item.name}">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">${item.name}</h5>
+                                                <p class="card-text">£${item.itemPrice.toFixed(2)}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                        } else {
+                            html = '<p class="text-center">No items available.</p>';
+                        }
+                        $("#itemsContainer").html(html);
+                    }
+                });
+            }
+
+            // Load first category items by default
+            if ($("#defaultCategory").length) {
+                let firstCategoryId = $("#defaultCategory").data("category");
+                loadItems(firstCategoryId);
+            }
+
+            // Handle category button clicks
+            $(".category-btn").click(function () {
+                let categoryId = $(this).data("category");
+                loadItems(categoryId);
+            });
+        });
+    </script>
+
+</body>
