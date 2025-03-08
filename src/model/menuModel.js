@@ -21,6 +21,10 @@ const itemSchema = new Schema({
         type: String,
         required: true
     },
+    itemPrice:{
+        type: Number,
+        required: true
+    },
     category: {
         type: Schema.Types.ObjectId,
         ref: "Category"

@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
+//js code for add new item field in menuForm
 function addItemField() {
   let itemFields = document.getElementById("itemFields");
 
@@ -103,9 +103,10 @@ function addItemField() {
   newItemGroup.classList.add("mb-3", "item-group");
 
   newItemGroup.innerHTML = `
-      <label class="form-label">Item Name</label>
+      <label class="form-label">Item Name & Price</label>
       <div class="input-group">
           <input type="text" name="itemName[]" class="form-control" placeholder="Enter item name" required>
+          <input type="number" name="itemPrice[]" class="form-control" placeholder="Enter item price" required>
           <button type="button" class="btn btn-danger" onclick="removeItemField(this)">-</button>
       </div>
   `;
@@ -117,7 +118,9 @@ function removeItemField(button) {
   button.closest(".item-group").remove();
 }
 
-//
+
+
+//Disable one of the category in a single time JS code
 document.addEventListener("DOMContentLoaded", function () {
   const categorySelect = document.getElementById("category");
   const newCategoryInput = document.getElementById("newCategory");
