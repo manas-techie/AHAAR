@@ -20,6 +20,7 @@ const mainRoute = require('./router/mainRoute.js')
 const restaurantRoute = require('./router/restaurantRoute.js')
 const userRoute = require('./router/userRoute.js');
 const reviewRoute = require('./router/reviewRoute.js');
+const menuRoute = require('./router/menuRoute.js');
 
 
 const sessionOptions = {
@@ -63,6 +64,8 @@ app.use('/', mainRoute);
 app.use('/restaurant', restaurantRoute)
 app.use('/user', userRoute);
 app.use('/restaurant/:id/review', reviewRoute);
+app.use('/menu', menuRoute);
+
 
 
 // app.all("*", (req, res, next) => {

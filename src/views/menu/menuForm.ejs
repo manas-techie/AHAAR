@@ -1,0 +1,44 @@
+<% layout('layout/boilerplate') %>
+
+<div class="container">
+    <h2 class="text-center mb-4">Add Menu Items</h2>
+
+    <form action="/menu/<%= currUser._id %>" method="POST">
+        <!-- Category Selection -->
+        <div class="mb-3">
+            <label for="category" class="form-label">Select Category</label>
+            <select id="category" name="category" class="form-select" required>
+                <option value>Choose a category</option>
+                <% categories.forEach(category => { %>
+                <option value="<%= category._id %>"><%= category.name
+                    %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <!-- OR Add New Category -->
+        <div class="mb-3">
+            <label for="newCategory" class="form-label">Or Add a New
+                Category</label>
+            <input type="text" id="newCategory" name="newCategory"
+                class="form-control" placeholder="Enter new category">
+        </div>
+
+        <!-- Item Inputs -->
+        <div id="itemFields">
+            <div class="mb-3 item-group">
+                <label class="form-label">Item Name</label>
+                <div class="input-group">
+                    <input type="text" name="itemName[]" class="form-control"
+                        placeholder="Enter item name" required>
+                    <button type="button" class="btn btn-add"
+                        onclick="addItemField()">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success w-100 mt-3">Add
+            Items</button>
+    </form>
+</div>
