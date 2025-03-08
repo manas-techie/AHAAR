@@ -17,21 +17,31 @@
 
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/restaurant">Restaurants</a></li>
-                <li class="nav-item"><a class="nav-link" href="/fnr">FNR</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link"
+                        href="/restaurant">Restaurants</a></li>
+                <li class="nav-item"><a class="nav-link"
+                        href="/fnr">FNR</a></li>
+                <li class="nav-item"><a class="nav-link"
+                        href="/contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link"
+                        href="/about">About</a></li>
             </ul>
         </div>
 
         <!-- Main Navbar (Visible on Large Screens) -->
-        <div class="collapse navbar-collapse justify-content-center d-none d-lg-flex" id="navbarNav">
+        <div
+            class="collapse navbar-collapse justify-content-center d-none d-lg-flex"
+            id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/restaurant">Restaurants</a></li>
-                <li class="nav-item"><a class="nav-link" href="/fnr">FNR</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link"
+                        href="/restaurant">Restaurants</a></li>
+                <li class="nav-item"><a class="nav-link"
+                        href="/fnr">FNR</a></li>
+                <li class="nav-item"><a class="nav-link"
+                        href="/contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link"
+                        href="/about">About</a></li>
             </ul>
         </div>
 
@@ -41,10 +51,12 @@
             <a class="btn btn-custom" href="/user/login">Sign Up / Sign In</a>
         </span>
         <% } else { %>
-        <div class="profile-dropdown">
-            <img src="<%= currUser.profilePic || '/assets/default-user.png' %>" alt="Profile" id="profile-icon">
+        <div class="profile-dropdown ms-auto">
+            <img src="<%= currUser.profilePic || '/assets/default-user.png' %>"
+                alt="Profile" id="profile-icon">
             <ul class="dropdown-menu" id="dropdown-menu">
                 <li><a href="/user/profile">Profile</a></li>
+                <li><a href="/menu">Dynamic Menu</a></li>
                 <li><a href="/user/settings">Settings</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="text-danger" href="/user/logout">Logout</a></li>

@@ -31,7 +31,6 @@ router.get('/login', saveRedirectUrl, (req, res) => {
 
 router.post('/login', saveRedirectUrl, passport.authenticate("local", { failureRedirect: "/user/login", failureFlash: true }), wrapAsync(async (req, res) => {
     req.flash("success", "Welcome back");
-    console.log(res.locals.redirectUrl)
     res.redirect(res.locals.redirectUrl || "/restaurant");
 }));
 
