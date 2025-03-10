@@ -1,0 +1,115 @@
+<% layout('layout/boilerplate') %>
+
+<style>
+    .menu-items {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .item-card {
+        width: 200px;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .item-card img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    .price {
+        font-weight: bold;
+        color: green;
+    }
+</style>
+
+<h1>Edit Menu for <%= menu.owner.username %></h1>
+
+<form action="/menu/<%= currUserId %>/edit" method="POST">
+    <!-- Loop through categories -->
+    <div id="categories">
+        <% menu.categories.forEach((category, categoryIndex) => { %>
+        <div class="category">
+            <input type="text" name="categories[<%= categoryIndex %>][name]"
+                value="<%= category.name %>" required>
+            <button type="button" onclick="deleteCategory(this)">Delete
+                Category</button>
+
+            <div class="menu-items">
+                <% category.items.forEach((item, itemIndex) => { %>
+                <div class="item-card">
+                    <input type="hidden"
+                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][id]"
+                        value="<%= item._id %>">
+                    <input type="text"
+                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][name]"
+                        value="<%= item.name %>" required>
+                    <input type="text"
+                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][description]"
+                        value="<%= item.description %>">
+                    <input type="number" step="0.01"
+                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][price]"
+                        value="<%= item.price %>" required>
+                    <input type="text"
+                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][imageUrl]"
+                        value="<%= item.imageUrl %>">
+                    <label>Available:
+                        <input type="checkbox"
+                            name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][available]"
+                            <%=item.available ? "checked" : "" %>>
+                    </label>
+                    <button type="button" onclick="deleteItem(this)">Delete
+                        Item</button>
+                </div>
+                <% }) %>
+            </div>
+
+            <button type="button"
+                onclick="addItem(this, <%= categoryIndex %>)">Add Item</button>
+        </div>
+        <% }) %>
+    </div>
+
+    <button type="button" onclick="addCategory()">Add Category</button>
+    <button type="submit">Save Changes</button>
+</form>
+
+<script>
+    function deleteCategory(button) {
+        button.parentElement.remove();
+    }
+
+    function deleteItem(button) {
+        button.parentElement.remove();
+    }
+
+    function addCategory() {
+        const index = document.querySelectorAll('.category').length;
+        const categoryDiv = document.createElement('div');
+        categoryDiv.classList.add('category');
+        categoryDiv.innerHTML = `
+            <input type="text" name="categories[${index}][name]" placeholder="Category Name" required>
+            <button type="button" onclick="deleteCategory(this)">Delete Category</button>
+            <div class="menu-items"></div>
+            <button type="button" onclick="addItem(this, ${index})">Add Item</button>
+        `;
+        document.getElementById('categories').appendChild(categoryDiv);
+    }
+
+    function addItem(button, categoryIndex) {
+        const itemIndex = document.querySelectorAll(`.category:nth-child(${categoryIndex + 1}) .item-card`).length;
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('item-card');
+        itemDiv.innerHTML = `
+            <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][name]" placeholder="Item Name" required>
+            <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][description]" placeholder="Description">
+            <input type="number" step="0.01" name="categories[${categoryIndex}][items][${itemIndex}][price]" placeholder="Price" required>
+            <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][imageUrl]" placeholder="Image URL">
+            <label>Available: <input type="checkbox" name="categories[${categoryIndex}][items][${itemIndex}][available]"></label>
+            <button type="button" onclick="deleteItem(this)">Delete Item</button>
+        `;
+        button.previousElementSibling.appendChild(itemDiv);
+    }
+</script>

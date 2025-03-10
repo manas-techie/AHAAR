@@ -66,7 +66,57 @@ router.get('/:currUserId', async (req, res) => {
 });
 
 // edit route
+router.get('/:currUserId/edit', async (req, res) => {
+    let { currUserId } = req.params;
+    try {
+        const menu = await Menu.findOne({ owner: currUserId });
+        if (!menu) {
+            return res.status(404).send("Menu not found");
+        }
+        res.render('menu/editMenu.ejs', { menu, currUserId });
+    } catch (error) {
+        console.error("Error fetching menu for editing:", error);
+        res.status(500).send("Error loading edit menu page.");
+    }
+});
 
+//Update route
+router.post('/:currUserId/edit', async (req, res) => {
+    let { currUserId } = req.params;
+    try {
+        const { categories } = req.body;
+        let menu = await Menu.findOne({ owner: currUserId });
+        if (!menu) {
+            return res.status(404).send("Menu not found");
+        }
+
+        // Convert categories and items from form data
+        const updatedCategories = categories.map(category => {
+            return {
+                name: category.name,
+                items: category.items ? category.items.map(item => ({
+                    _id: item.id || new mongoose.Types.ObjectId(),
+                    name: item.name,
+                    description: item.description || "",
+                    price: parseFloat(item.price),
+                    imageUrl: item.imageUrl || "",
+                    available: item.available === "on"
+                })) : []
+            };
+        });
+
+        // Update menu with new categories and items
+        menu.categories = updatedCategories;
+        await menu.save();
+
+        res.redirect(`/menu/${currUserId}`);
+    } catch (error) {
+        console.error("Error updating menu:", error);
+        res.status(500).send("Error updating menu.");
+    }
+});
+
+// QR code generate route
 router.get("/:currUserId/qrcode", (req, res) => {
     let { currUserId } = req.params;
     // const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
