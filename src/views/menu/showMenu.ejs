@@ -1,81 +1,78 @@
-<% layout("layout/boilerplate.ejs") %>
-<head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<% layout('layout/boilerplate') %>
+    <style>
+        .menu-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .item-card {
+            width: 200px;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .item-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .price {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+    <script>
+        function showCategory(index) {
+            let categories = document.querySelectorAll(".category-content");
+            categories.forEach((cat, i) => {
+                cat.style.display = i === index ? "flex" : "none";
+            });
+
+            let buttons = document.querySelectorAll(".navbar button");
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle("active", i === index);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            showCategory(0); // Show first category by default
+        });
+    </script>
 </head>
 <body>
 
-    <div class="container">
-        <h2 class="text-center my-4">Menu</h2>
+    <h1><%= menu.owner.username %>'s Menu</h1>
 
-        <!-- Category Buttons -->
-        <div class="d-flex justify-content-center gap-2 mb-4">
-            <% if (menu.categories.length > 0) { %>
-            <% menu.categories.forEach((category, index) => { %>
-            <button class="btn btn-warning category-btn"
-                data-category="<%= category._id %>"
-                <% if (index === 0) { %> id="defaultCategory" <% } %>>
-                <%= category.name %>
-            </button>
-            <% }); %>
-            <% } else { %>
-            <p class="text-center">No categories available.</p>
-            <% } %>
-        </div>
+    <!-- Category Navigation -->
+    <div class="navbar">
+        <% menu.categories.forEach((category, index) => { %>
+            <button onclick="showCategory(<%= index %>)"><%= category.name %></button>
+        <% }) %>
+    </div>
 
-        <!-- Items Section -->
-        <div id="itemsContainer" class="row"></div>
+    <!-- Items Section -->
+    <div class="menu-items">
+        <% menu.categories.forEach((category, index) => { %>
+            <div class="category-content" style="display: none;">
+                <% category.items.forEach(item => { %>
+                    <div class="item-card">
+                        <img src="<%= item.imageUrl || 'https://via.placeholder.com/200' %>" alt="<%= item.name %>">
+                        <h3><%= item.name %></h3>
+                        <p><%= item.description %></p>
+                        <p class="price">£<%= item.price %></p>
+                    </div>
+                <% }) %>
+            </div>
+        <% }) %>
     </div>
 
     <% if(currUser && currUser._id == currUserId) { %>
-    <form action="/menu/<%=currUserId %>/qrcode" method="GET">
-        <button type="submit">Generate your QRcode</button>
-    </form>
+        <form action="/menu/<%=currUserId %>/qrcode" method="GET">
+            <button type="submit">Generate your QRcode</button>
+        </form>
     <% } %>
 
-    <script>
-        $(document).ready(function () {
-            let userId = "<%= menu.menuOwner %>"; // Get menu owner ID from EJS
-
-            function loadItems(categoryId) {
-                $.ajax({
-                    url: `/menu/${userId}/items/${categoryId}`,
-                    method: "GET",
-                    success: function (items) {
-                        let html = "";
-                        if (items.length > 0) {
-                            items.forEach(item => {
-                                html += `
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card">
-                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRexBia36ixX_U4FoPlg0iqv2hZIvfRyeH8LQ&s" class="card-img-top" alt="${item.name}">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">${item.name}</h5>
-                                                <p class="card-text">£${item.itemPrice.toFixed(2)}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            });
-                        } else {
-                            html = '<p class="text-center">No items available.</p>';
-                        }
-                        $("#itemsContainer").html(html);
-                    }
-                });
-            }
-
-            // Load first category items by default
-            if ($("#defaultCategory").length) {
-                let firstCategoryId = $("#defaultCategory").data("category");
-                loadItems(firstCategoryId);
-            }
-
-            // Handle category button clicks
-            $(".category-btn").click(function () {
-                let categoryId = $(this).data("category");
-                loadItems(categoryId);
-            });
-        });
-    </script>
-
 </body>
+</html>

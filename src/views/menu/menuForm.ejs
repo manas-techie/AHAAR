@@ -1,46 +1,167 @@
 <% layout('layout/boilerplate') %>
 
-<div class="container">
-    <h2 class="text-center mb-4">Add Menu Items</h2>
+<head>
+    <style>
+        .form-container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    <form action="/menu/<%= currUser._id %>" method="POST">
-        <!-- Category Selection -->
-        <div class="mb-3">
-            <label for="category" class="form-label">Select Category</label>
-            <select id="category" name="category" class="form-select" required>
-                <option value>Choose a category</option>
-                <% categories.forEach(category => { %>
-                <option value="<%= category._id %>"><%= category.name
-                    %></option>
-                <% }); %>
-            </select>
-        </div>
+        h1 {
+            text-align: center;
+            color: #333;
+        }
 
-        <!-- OR Add New Category -->
-        <div class="mb-3">
-            <label for="newCategory" class="form-label">Or Add a New
-                Category</label>
-            <input type="text" id="newCategory" name="newCategory"
-                class="form-control" placeholder="Enter new category">
-        </div>
+        .category, .item {
+            background: #fafafa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
 
-        <!-- Item Inputs -->
-        <div id="itemFields">
-            <div class="mb-3 item-group">
-                <label class="form-label">Item Name</label>
-                <div class="input-group">
-                    <input type="text" name="itemName[]" class="form-control"
-                        placeholder="Enter item name" required>
-                    <input type="number" name="itemPrice[]" class="form-control"
-                        placeholder="Enter item price" required>
-                    <button type="button" class="btn btn-add"
-                        onclick="addItemField()">+</button>
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+    </style>
+
+    <script>
+        function addCategory() {
+            const categoriesDiv = document.getElementById("categories");
+            const categoryIndex = document.getElementsByClassName("category").length;
+
+            const categoryHTML = `
+                <div class="category">
+                    <h3>Category</h3>
+                    
+                    <label>Select Category:</label>
+                    <select name="categories[${categoryIndex}][name]" onchange="toggleCategoryInput(${categoryIndex})">
+                        <option value="">-- Select a Category --</option>
+                        <option value="veg">Veg</option>
+                        <option value="non-veg">Non-Veg</option>
+                        <option value="beverages">Beverages</option>
+                        <option value="desserts">Desserts</option>
+                    </select>
+
+                    <label>Or Enter New Category:</label>
+                    <input type="text" name="categories[${categoryIndex}][customName]" oninput="toggleCategoryDropdown(${categoryIndex})" placeholder="Enter new category name">
+
+                    <div class="items">
+                        <h4>Items</h4>
+                        <button type="button" onclick="addItem(${categoryIndex})">Add Item</button>
+                    </div>
+                    <button type="button" class="delete-btn" onclick="removeCategory(this)">Remove Category</button>
                 </div>
-            </div>
-        </div>
+            `;
+            categoriesDiv.insertAdjacentHTML("beforeend", categoryHTML);
+        }
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-success w-100 mt-3">Add
-            Items</button>
-    </form>
-</div>
+        function toggleCategoryInput(categoryIndex) {
+            const selectElement = document.getElementsByClassName("category")[categoryIndex].querySelector("select");
+            const inputElement = document.getElementsByClassName("category")[categoryIndex].querySelector("input");
+
+            if (selectElement.value !== "") {
+                inputElement.value = ""; // Clear the text input if a category is selected
+                inputElement.disabled = true;
+            } else {
+                inputElement.disabled = false;
+            }
+        }
+
+        function toggleCategoryDropdown(categoryIndex) {
+            const selectElement = document.getElementsByClassName("category")[categoryIndex].querySelector("select");
+            const inputElement = document.getElementsByClassName("category")[categoryIndex].querySelector("input");
+
+            if (inputElement.value.trim() !== "") {
+                selectElement.value = ""; // Clear the dropdown selection if the user types a new category
+                selectElement.disabled = true;
+            } else {
+                selectElement.disabled = false;
+            }
+        }
+
+        function addItem(categoryIndex) {
+            const itemsDiv = document.getElementsByClassName("category")[categoryIndex].querySelector(".items");
+            const itemIndex = itemsDiv.getElementsByClassName("item").length;
+
+            const itemHTML = `
+                <div class="item">
+                    <h4>Item</h4>
+                    <label>Name:</label>
+                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][name]" required>
+
+                    <label>Description:</label>
+                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][description]">
+
+                    <label>Price:</label>
+                    <input type="number" name="categories[${categoryIndex}][items][${itemIndex}][price]" required>
+
+                    <label>Image URL:</label>
+                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][imageUrl]">
+
+                    <label>Available:</label>
+                    <input type="checkbox" name="categories[${categoryIndex}][items][${itemIndex}][available]" checked>
+                    
+                    <button type="button" class="delete-btn" onclick="removeItem(this)">Remove Item</button>
+                </div>
+            `;
+            itemsDiv.insertAdjacentHTML("beforeend", itemHTML);
+        }
+
+        function removeCategory(button) {
+            button.parentElement.remove();
+        }
+
+        function removeItem(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>Create Menu</h1>
+        <form action="/menu/<%= currUser._id %>" method="POST">
+            <div id="categories"></div>
+            <button type="button" onclick="addCategory()">Add Category</button>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

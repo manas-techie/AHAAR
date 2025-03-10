@@ -1,6 +1,7 @@
 const express = require('express');
+const mongoose = require("mongoose")
 const router = express.Router();
-const { Category, Item, Menu } = require("../model/menuModel.js");
+const Menu = require("../model/menuModel.js");
 const wrapAsync = require('../utils/wrapAsync.js');
 const { isLoggesIn, saveRedirectUrl } = require('../middlewares/userMiddleware.js');
 const QRCode = require("qrcode")
@@ -8,105 +9,63 @@ const QRCode = require("qrcode")
 
 // This is the code for displaying create menu form
 router.get("/", isLoggesIn, saveRedirectUrl, async (req, res) => {
-    const categories = await Category.find({});
-    res.render("menu/menuForm.ejs", { categories });
+    res.render("menu/menuForm.ejs");
 });
 
-
-// This is the code for displaying the menu
-router.get("/:currUserId", async (req, res) => {
-    const { currUserId } = req.params;
-    const menu = await Menu.findOne({ menuOwner: currUserId })
-        .populate({
-            path: "categories",
-            populate: { path: "items", model: "Item" }
-        });
-
-    if (!menu) {
-        return res.status(404).send("Menu not found for this user.");
-    }
-    res.render("menu/showMenu.ejs", { menu, currUserId });
-})
-
-router.get("/:currUserId/items/:categoryId", async (req, res) => {
+// POST Route to create a menu
+router.post('/:currUserId', async (req, res) => {
     try {
-        const { currUserId, categoryId } = req.params;
-        const menu = await Menu.findOne({ menuOwner: currUserId })
-            .populate({
-                path: "categories",
-                match: { _id: categoryId },
-                populate: { path: "items", model: "Item" }
-            });
+        const { categories } = req.body;
+        let { currUserId } = req.params;
+        const ownerId = currUserId; // Assuming user authentication middleware is used
 
-        if (!menu || menu.categories.length === 0) {
-            return res.status(404).json({ message: "Category not found." });
-        }
+        const formattedCategories = categories.map(category => {
+            const categoryName = category.customName && category.customName.trim() !== ""
+                ? category.customName
+                : category.name; // Use custom name if provided, else use selected category
 
-        res.json(menu.categories[0].items);
+            return {
+                name: categoryName,
+                items: category.items ? category.items.map(item => ({
+                    name: item.name,
+                    description: item.description || "",
+                    price: parseFloat(item.price),
+                    imageUrl: item.imageUrl || "",
+                    available: item.available === "on" // Checkbox returns "on" when checked
+                })) : []
+            };
+        });
+
+        const newMenu = new Menu({
+            owner: new mongoose.Types.ObjectId(ownerId),
+            categories: formattedCategories
+        });
+
+        await newMenu.save();
+        res.redirect(`/menu/${currUserId}`); // Redirect to success page or menu listing
     } catch (error) {
-        console.error("Error fetching items:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        console.error("Error saving menu:", error);
+        res.status(500).send("Error saving menu data.");
     }
 });
 
 
-// This is the code for handle the create menu form
-router.post("/:currUserId", wrapAsync(async (req, res) => {
+// GET route to display menu
+router.get('/:currUserId', async (req, res) => {
     let { currUserId } = req.params;
-    const { category, newCategory, itemName, itemPrice } = req.body;
-
-    let categoryId = category;
-
-    // Create a new category if provided
-    if (newCategory) {
-        const newCat = new Category({ name: newCategory });
-        await newCat.save();
-        categoryId = newCat._id;
-    }
-
-    // Ensure itemName and itemPrice are treated as arrays
-    const itemNames = Array.isArray(itemName) ? itemName : [itemName];
-    const itemPrices = Array.isArray(itemPrice) ? itemPrice : [itemPrice];
-
-    // Store item IDs for updating the category
-    const itemIds = [];
-
-    // Save multiple items with prices
-    for (let i = 0; i < itemNames.length; i++) {
-        const newItem = new Item({
-            name: itemNames[i],
-            itemPrice: parseFloat(itemPrices[i]), // Convert to number
-            category: categoryId
-        });
-
-        await newItem.save();
-        itemIds.push(newItem._id);
-    }
-
-    // Update category with new item IDs
-    await Category.findByIdAndUpdate(categoryId, { $push: { items: { $each: itemIds } } });
-
-    // Check if a menu exists for the current user
-    let menu = await Menu.findOne({ menuOwner: currUserId });
-
-    if (!menu) {
-        // If no menu exists, create a new one and link the category
-        menu = new Menu({
-            menuOwner: currUserId,
-            categories: [categoryId] // Add the first category
-        });
-    } else {
-        // If the menu exists, update it with the new category (only if it's not already included)
-        if (!menu.categories.includes(categoryId)) {
-            menu.categories.push(categoryId);
+    try {
+        const menu = await Menu.findOne({ owner: currUserId });
+        if (!menu) {
+            return res.status(404).send("Menu not found");
         }
+        res.render('menu/showMenu.ejs', { menu, currUserId });
+    } catch (error) {
+        console.error("Error fetching menu:", error);
+        res.status(500).send("Error fetching menu");
     }
+});
 
-    // Save or update the menu
-    await menu.save();
-
-    res.redirect(`/menu/${currUserId}`); // Redirect to menu page
-}));
+// edit route
 
 router.get("/:currUserId/qrcode", (req, res) => {
     let { currUserId } = req.params;

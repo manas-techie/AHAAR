@@ -1,55 +1,25 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const categorySchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    items: [
+const menuSchema = new mongoose.Schema({
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  categories: [
+    {
+      name: { type: String, required: true },
+      items: [
         {
-            type: Schema.Types.ObjectId,
-            ref: "Item"
+          name: { type: String, required: true },
+          description: { type: String },
+          price: { type: Number, required: true },
+          imageUrl: { type: String },
+          available: { type: Boolean, default: true }
         }
-    ]
-});
-
-// Item Schema (e.g., "Cheeseburger", "Pepsi", "Spaghetti")
-const itemSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    itemPrice:{
-        type: Number,
-        required: true
-    },
-    category: {
-        type: Schema.Types.ObjectId,
-        ref: "Category"
+      ]
     }
-});
+  ]
+}, { timestamps: true });
 
-// Menu Schema (Linked to a User)
-const menuSchema = new Schema({
-    menuOwner: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
-    categories: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Category"
-        }
-    ]
-});
-
-// Define Models
-const Category = mongoose.model("Category", categorySchema);
-const Item = mongoose.model("Item", itemSchema);
-const Menu = mongoose.model("Menu", menuSchema);
-
-// Export Models
-module.exports = { Category, Item, Menu };
+module.exports = mongoose.model('Menu', menuSchema);
