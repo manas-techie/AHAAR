@@ -1,110 +1,99 @@
 <% layout('layout/boilerplate') %>
+
+<style>
+    body { font-family: 'Poppins', sans-serif; }
+    .content-wrapper {
+        background: linear-gradient(to right, #f8f9fa, #e9ecef);
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .review-section { border: 1px solid #ccc; border-radius: 8px; padding: 15px; }
+</style>
 <body>
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <h5 class="card-title"><%= restaurant.title %></h5>
-                <div class="card restaurant-card"></div>
-                <img src="<%= restaurant.image %>"
-                    class="card-img-top card-image" alt="image">
-                <div class="card-body"></div>
-                <p>created by : @<%= restaurant.owner.username %></p>
-                <p class="card-text"><%= restaurant.description %></p>
-                <ul class="list-group list-group-flush"></ul>
-                <li class="list-group-item"><strong>Address:</strong> </li>
-                <li class="list-group-item"><strong>Phone:</strong> </li>
-                <li class="list-group-item"><strong>Website:</strong> <a
-                        href></a></li>
-            </ul>
-        </div>
-        <% if(currUser && currUser._id.equals(restaurant.owner._id)) {%>
-        <div class="restaurant-btns row mt-2 mb-2">
-            <a href="/restaurant/<%= restaurant._id %>/edit"
-                class="btn btn-success col-sm-4 offset-sm-2">Edit</a>
-            <form action="/restaurant/<%= restaurant._id %>?_method=DELETE"
-                method="POST" class="col mb-2">
-                <button class="Delete-btn btn btn-danger">Delete</button>
-            </form>
-        </div>
-        <% } %>
-        <hr>
-        <div class="rating mt-3 mb-3">
-            <h4>Leave a review</h4>
-            <form action="/restaurant/<%= restaurant._id %>/review"
-                method="POST"
-                novalidate class="needs-validation">
-                <div class="rating mt-3 mb-3">
-
-                    <fieldset class="starability-basic">
-                        <legend></legend>
-                        <input type="radio" id="no-rate"
-                            class="input-no-rate"
-                            name="review[rating]" value="1 " checked
-                            aria-label="No rating." />
-                        <input type="radio" id="first-rate1"
-                            name="review[rating]"
-                            value="1" />
-                        <label for="first-rate1" title="Terrible">1
-                            star</label>
-                        <input type="radio" id="first-rate2"
-                            name="review[rating]"
-                            value="2" />
-                        <label for="first-rate2" title="Not good">2
-                            stars</label>
-                        <input type="radio" id="first-rate3"
-                            name="review[rating]"
-                            value="3" />
-                        <label for="first-rate3" title="Average">3
-                            stars</label>
-                        <input type="radio" id="first-rate4"
-                            name="review[rating]"
-                            value="4" />
-                        <label for="first-rate4" title="Very good">4
-                            stars</label>
-                        <input type="radio" id="first-rate5"
-                            name="review[rating]"
-                            value="5" />
-                        <label for="first-rate5" title="Amazing">5
-                            stars</label>
-                    </fieldset>
-                </div>
-
-                <div>
-                    <label for="comment" class="form-label">Comment</label>
-                    <textarea name="review[comment]" id="comment" cols="30"
-                        rows="3" class="form-control" required></textarea>
-                    <div class="invalid-feedback">
-                        please enter a comment
-                    </div>
-                </div>
-                <br>
-                <button class="btn btn-outline-dark">submit</button>
-            </form>
-        </div>
-        <hr>
-
-        <div class="reviews">
-            <p><b>All Reviews</b></p>
+        <div class="content-wrapper">
+            <h2 class="fw-bold"><%= restaurant.title %></h2>
+            <p class="text-muted">Created by: @<%= restaurant.owner.username %></p>
+            
+            <div class="card mb-4">
+                <img src="<%= restaurant.image %>" class="card-img-top w-100" alt="Restaurant Image">
+            </div>
+            
+            <h4 class="mt-4" style="font-weight: bold;">Description</h4>
+            <p><%= restaurant.description %></p>
+            
+            <h4 class="mt-4" style="font-weight: bold;"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     >Address</h4>
+            <p><strong><%= restaurant.location %>, <%= restaurant.country %></strong></p>
+            
+            <% if(currUser && currUser._id.equals(restaurant.owner._id)) { %>
+            <div class="d-flex gap-2 mt-3">
+                <a href="/restaurant/<%= restaurant._id %>/edit" class="btn btn-success">Edit</a>
+                <form action="/restaurant/<%= restaurant._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            <% } %>
+            
+            <hr>
+            
             <div class="row">
-                <% for(review of restaurant.reviews) {%>
-                <div class="card col-5 ms-2 mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">@</h5>
-                        <p class="starability-result card-text"
-                            data-rating="<%= review.rating %>">
-                        </p>
-                        <p class="card-text"><%= review.comment %></p>
-                        <p class="card-text"><%= review.rating %> stars</p>
-
+                <div class="col-md-6">
+                    <div class="review-section">
+                        <h4 class="mt-4">Leave a Review</h4>
+                        <form action="/restaurant/<%= restaurant._id %>/review" method="POST" novalidate class="needs-validation">
+                            <div class="rating mt-3 mb-3">
+                                <fieldset class="starability-basic">
+                                    <legend></legend>
+                                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                                    <label for="first-rate1" title="Terrible">1 star</label>
+                                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                    <label for="first-rate2" title="Not good">2 stars</label>
+                                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                    <label for="first-rate3" title="Average">3 stars</label>
+                                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                    <label for="first-rate4" title="Very good">4 stars</label>
+                                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                    <label for="first-rate5" title="Amazing">5 stars</label>
+                                </fieldset>
+                            </div>
+                            <div>
+                                <label for="comment" class="form-label">Comment</label>
+                                <textarea name="review[comment]" id="comment" cols="30" rows="3" class="form-control" required></textarea>
+                                <div class="invalid-feedback">Please enter a comment</div>
+                            </div>
+                            <br>
+                            <button class="btn btn-outline-dark">Submit</button>
+                        </form>
                     </div>
-                    <form class="mb-3 mt-3" method="POST"
-                        action="/restaurant/<%= restaurant._id %>/review/<%= review._id %>?_method=DELETE">
-                        <button
-                            class="btn btn-sm btn-dark">delete</button>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <div>
+                        <h5 style="font-weight: bold;">Location</h5>
+                        <button class="btn btn-outline-dark w-100">View Location</button>
+                    </div>
+                </div>
+            </div>
+            
+            <% if(restaurant.reviews.length > 0) { %>
+            <hr>
+            <h4 class="mt-4">All Reviews</h4>
+            <div class="row">
+                <% for(review of restaurant.reviews) { %>
+                <div class="card col-md-5 ms-2 mb-3 review-section">
+                    <div class="card-body">
+                        <h5 class="card-title">@<%= review.author %></h5>
+                        <p class="card-text"><%= review.comment %></p>
+                        <p class="card-text"><strong><%= review.rating %> Stars</strong></p>
+                    </div>
+                    <form method="POST" action="/restaurant/<%= restaurant._id %>/review/<%= review._id %>?_method=DELETE">
+                        <button class="btn btn-sm btn-danger">Delete</button>
                     </form>
                 </div>
                 <% } %>
             </div>
+            <% } %>
         </div>
     </div>
-</div>
