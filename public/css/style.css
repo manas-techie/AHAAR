@@ -261,60 +261,68 @@ html {
 /* Footer Code Ends Here */
 
 /* About Us Code Starts Here */
-.about-container {
-  background-image: url("/assets/bg.png"); /* Replace with your actual image */
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100% !important;
-  height: 70vh !important;
+.about {
+  width: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 15vh 0 !important;
 }
 .about-container {
   display: flex;
+  max-width: 1200px;
+  width: 100%;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
+  padding: 40px;
+}
+.about-content, .about-image {
+  flex: 1;
   text-align: center;
-  height: 100vh;
-  gap: 50px;
-  position: relative;
+  color: white;
+  width: 100%;
 }
-
-/* Content sections */
-.about-content {
-  max-width: 300px;
-}
-
-/* Headings */
 .about-heading {
   font-size: 2rem;
-  margin-bottom: 10px;
-  color: #dcca87;
-}
-
-/* Text */
-.about-text {
-  font-size: 1rem;
-  line-height: 1.5;
   margin-bottom: 20px;
-  color: white;
 }
-
-/* Buttons */
+.about-text {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
 .about-button {
   padding: 10px 20px;
-  background-color: #dcca87;
-  border: none;
-  cursor: pointer;
   font-size: 1rem;
-  transition: 0.3s ease;
+  border: none;
+  background: #dcca87;
+  color: black;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .about-button:hover {
   background-color: #bfa75e;
 }
-
-/* Image styling */
 .about-image img {
-  height: 300px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+}
+@media (max-width: 768px) {
+  .about {
+      padding: 6vh 0 !important;
+  }
+  .about-container {
+      flex-direction: column;
+      text-align: center;
+  }
+  .about-content, .about-image {
+      width: 100%;
+      text-align: center;
+      margin-top: 60px;
+  }
 }
 
 /* About Us Code Ends Here */

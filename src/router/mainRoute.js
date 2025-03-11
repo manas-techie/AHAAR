@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../model/userRestrationModel')
 router.get('/', (req, res) => {
-    res.send("hi i am root")
+    res.render('home');
 })
 
 router.get('/about', (req, res) => {
