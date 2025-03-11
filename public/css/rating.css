@@ -191,3 +191,13 @@
     display: none;
   }
 }
+
+/* all review style start */
+
+.review-section {
+  border: none !important;
+}
+
+.review-delete-btn {
+  margin-left: 0.8rem !important;
+}
