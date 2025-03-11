@@ -1,24 +1,137 @@
 <% layout('layout/boilerplate') %>
-<body>
+<div class="index-restaurant">
   <div class="restroIndex">
-    <div
-      class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 restaurant-section"
-    >
-      <% for(let restaurant of allRestaurants) {%>
+    <h1 class="title">Discover Amazing Restaurants</h1>
+    <div class="restaurant-section">
+      <% for(let restaurant of allRestaurants) { %>
       <a href="/restaurant/<%= restaurant._id %>" class="listing-link">
-        <div class="card col restaurant-card" style="width: 100%">
+        <div class="restaurant-card fade-in">
           <img
             src="<%= restaurant.image %>"
-            class="card-img-top card-image"
-            alt="image"
-          />
-          <div class="card-img-overlay"></div>
-          <div class="card-body">
-            <p class="card-text"><%= restaurant.title %></p>
+            class="restaurant-image"
+            alt="image" />
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-body">
+            <p class="restaurant-title"><%= restaurant.title %></p>
           </div>
         </div>
       </a>
       <% } %>
     </div>
   </div>
+</div>
+  <style>
+    .index-restaurant {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .restaurant-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .listing-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .restaurant-card {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+      background: white;
+    }
+
+    .restaurant-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .restaurant-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(70%);
+    }
+
+    .restaurant-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    }
+
+    .restaurant-body {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    /* Fade-in Animation */
+    .fade-in {
+      opacity: 0;
+      animation: fadeInAnimation 0.8s ease-in-out forwards;
+    }
+
+    @keyframes fadeInAnimation {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Delay animation for each item */
+    <% for(let i = 0; i < allRestaurants.length; i++) { %>
+    .fade-in:nth-child(<%= i + 1 %>) {
+      animation-delay: <%= i * 0.2 %>s;
+    }
+    <% } %>
+
+    /* Responsive Grid */
+    @media (min-width: 1024px) {
+      .restaurant-section {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .restaurant-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 767px) {
+      .restaurant-section {
+        grid-template-columns: 1fr;
+      }
+      .restaurant-card {
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+  </style>
 </body>
