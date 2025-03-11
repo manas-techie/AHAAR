@@ -1,0 +1,360 @@
+<% layout('layout/boilerplate.ejs') %>
+
+<style>
+  body {
+    background: url("/assets/bg.png") no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+  }
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .menu-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 50px 0;
+    background-color: black;
+  }
+
+  .menu-item img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+  }
+
+  .menu-img img {
+    height: 107vh;
+    width: 40vw;
+  }
+
+  /* Hide on small screens */
+  @media (max-width: 768px) {
+    .menu-section {
+      display: none !important;
+    }
+  }
+
+  .belief-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 10vw;
+    color: whitesmoke;
+  }
+  .belief-image {
+    position: relative;
+    max-width: 400px;
+  }
+  .belief-image img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  .belief-image::before,
+  .belief-image::after {
+    content: "";
+    position: absolute;
+    border: 5px solid #dcca87;
+  }
+  .belief-image::before {
+    top: -20px;
+    left: -20px;
+    width: 80%;
+    height: 80%;
+  }
+  .belief-image::after {
+    bottom: -20px;
+    right: -20px;
+    width: 80%;
+    height: 80%;
+  }
+  .belief-text {
+    padding-left: 50px;
+    max-width: 600px;
+  }
+  .belief-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  .quote {
+    font-style: italic;
+    font-size: 1.2rem;
+  }
+  .author {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .title {
+    font-size: 1rem;
+    color: white;
+  }
+  @media (max-width: 768px) {
+    .belief-section {
+      flex-direction: column;
+      text-align: center;
+    }
+    .belief-text {
+      padding-left: 0;
+      margin-top: 20px;
+    }
+  }
+
+
+  /* .awards-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 50px;
+            background-color: black;
+        }
+        .awards-text {
+            flex: 1;
+        }
+        .awards-text h2 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .award-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .award-item span {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .award-number {
+            background: #d4c08f;
+            color: black;
+            font-weight: bold;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 10px;
+        } */
+        .carousel-container {
+            flex: 1;
+            position: relative;
+        }
+        .carousel img {
+            height: 100vh;
+            border-radius: 10px;
+        } 
+
+
+
+
+
+        .newsletter-box {
+            border: 1px solid #5e4d17;
+            padding: 50px;
+            text-align: center;
+            max-width: 600px;
+            margin: auto;
+            color: whitesmoke;
+        }
+        .newsletter-title {
+            font-size: 2rem;
+            color: #d4af37;
+        }
+        .email-input {
+            border: 1px solid #d4af37;
+            background: transparent;
+            color: #d4af37;
+        }
+        .email-input::placeholder {
+            color: #d4af37;
+        }
+        .subscribe-btn {
+            background-color: #d4af37;
+            color: #000;
+            border: none;
+        }
+</style>
+<body>
+  <div class="overlay">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide">
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+          <img src="/assets/poster1.jpg" class="d-block w-100" alt="..." />
+          <div class="carousel-caption d-none d-md-block"></div>
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+          <img src="/assets/poster2.jpg" class="d-block w-100" alt="..." />
+          <div class="carousel-caption d-none d-md-block"></div>
+        </div>
+        <div class="carousel-item">
+          <img src="..." class="d-block w-100" alt="..." />
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Third slide label</h5>
+            <p>Some representative placeholder content for the third slide.</p>
+          </div>
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <div class="about">
+    <div class="about-container">
+      <div class="about-content">
+        <h2 class="about-heading">About Us</h2>
+        <p class="about-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis pharetra
+          adipiscing ultrices.
+        </p>
+        <button class="about-button">Know More</button>
+      </div>
+      <div class="about-image">
+        <img src="/assets/aboutUsLogo.png" alt="About Us" />
+      </div>
+      <div class="about-content">
+        <h2 class="about-heading">Our History</h2>
+        <p class="about-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed odio
+          nec aliquet eu proin mauris.
+        </p>
+        <button class="about-button">Know More</button>
+      </div>
+    </div>
+  </div>
+  <div class="menu-section d-none d-md-flex">
+    <div class="menu-item">
+      <img src="/assets/menu1.jpg" alt="Menu Item 1" />
+    </div>
+    <div class="menu-img">
+      <img src="/assets/menu.png" alt="" />
+    </div>
+    <div class="menu-item">
+      <img src="/assets/menu2.jpg" alt="Menu Item 2" />
+    </div>
+  </div>
+  <div class="belief-section">
+    <div class="belief-image">
+      <img src="/assets/chef.png" alt="Chef Kevin Luo" />
+    </div>
+    <div class="belief-text">
+      <h2>What We Believe In</h2>
+      <p class="quote">
+        &ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
+        sit.&rdquo;
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate nulla
+        lobortis mauris eget sit. Nulla scelerisque scelerisque congue ac
+        consequat.
+      </p>
+      <p class="author"></p>
+      <p class="title"></p>
+    </div>
+  </div>
+  <div class="container-fluid awards-section">
+    <div class="row align-items-center">
+
+        <!-- Carousel Section -->
+        <div class="col-md-6 col-12 d-flex justify-content-center">
+          <div class="carousel-container">
+              <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                      <div class="carousel-item active">
+                          <img src="/assets/small_sliding1.jpg" alt="Food Image" class="img-fluid">
+                      </div>
+                      <div class="carousel-item">
+                          <img src="/assets/small_sliding2.png" alt="Restaurant" class="img-fluid">
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+        <!-- Text Section -->
+        <div class="col-md-6 col-12 awards-text text-md-start text-center">
+            <h2>Our Laurels</h2>
+            <div class="award-item">
+                <div class="award-number">1</div>
+                <span>Rising Star</span>
+            </div>
+            <div class="award-item">
+                <div class="award-number">2</div>
+                <span>Bib Gourmond</span>
+            </div>
+            <div class="award-item">
+                <div class="award-number">3</div>
+                <span>Outstanding Chef</span>
+            </div>
+            <div class="award-item">
+                <div class="award-number">5</div>
+                <span>AA Hospitality</span>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+<div class="container mt-5">
+  <div class="newsletter-box">
+      <h5>Newsletter</h5>
+      <hr style="border: 1px solid #d4af37; width: 50px; margin: auto;">
+      <h2 class="newsletter-title mt-3">Subscribe To Our Newsletter</h2>
+      <p>And Never Miss Latest Updates!</p>
+      <p class="fw-bold">Join our email list for future updates</p>
+      <div class="input-group mt-3">
+          <input type="email" class="form-control email-input" placeholder="Enter your E-mail Address">
+          <button class="btn subscribe-btn">Subscribe</button>
+      </div>
+  </div>
+</div>
+</body>
