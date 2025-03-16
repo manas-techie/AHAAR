@@ -2,22 +2,37 @@
 // navbar active link logic
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Get the current page URL
   let currentUrl = window.location.pathname;
 
-  // Select all nav links inside the navbar
   let navLinks = document.querySelectorAll(".navbar-nav .nav-link");
 
   navLinks.forEach(link => {
-    // Check if the link's href matches the current URL
-    if (link.href.includes(currentUrl)) {
-      // Remove 'active' class from any previously active link
+    // Create a URL object to extract the pathname
+    let linkPath = new URL(link.href, window.location.origin).pathname;
+
+    // Exact match for active link
+    if (linkPath === currentUrl || (currentUrl === "/" && linkPath === "/")) {
       document.querySelector('.navbar-nav .nav-link.active')?.classList.remove('active');
-      // Add 'active' class to the current page link
       link.classList.add("active");
     }
   });
 });
+
+
+// home page slider logic
+
+const slider = new A11YSlider(document.querySelector(".slider"), {
+  adaptiveHeight: false,
+  dots: true,
+  centerMode: true,
+  arrows: false,
+  responsive: {
+    480: {
+      dots: false, // dots enabled 1280px and up
+    },
+  },
+});
+
 
 
 // new form novalidate logic
@@ -153,7 +168,6 @@ document.addEventListener("DOMContentLoaded", function () {
 $(document).ready(function () {
   $(".category-btn").click(function () {
     let categoryId = $(this).data("category");
-    console.log("hee..........hee..........hoo..........hoo")
     $.ajax({
       url: "/menu/items/" + categoryId,
       method: "GET",

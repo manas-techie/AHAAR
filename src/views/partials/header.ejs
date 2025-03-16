@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark navbar-custom">
+<nav class="navbar sticky-top navbar-expand-lg" style="background-color: #f0f0d7;">
     <div class="container-fluid">
         <!-- Toggler button for small screens -->
         <button class="navbar-toggler d-lg-none" type="button" id="menuToggle">
@@ -48,7 +48,7 @@
         <!-- User Profile / Sign In -->
         <% if(!currUser) { %>
         <span class="nav-item ms-auto">
-            <a class="btn btn-custom" href="/user/login">Sign Up / Sign In</a>
+            <a class="btn btn-custom" href="/user/login">Sign Up</a>
         </span>
         <% } else { %>
         <div class="profile-dropdown ms-auto">

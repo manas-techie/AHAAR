@@ -11,10 +11,6 @@ html {
   flex: 1;
 }
 /* Navbar code Starts Here */
-
-.navbar-custom {
-  background-color: #111; /* Dark background */
-}
 .navbar-brand {
   font-family: "Georgia", serif;
   font-size: 1.5rem;
@@ -22,7 +18,7 @@ html {
 }
 .navbar-nav .nav-link {
   position: relative;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(49, 47, 47, 0.6);
   margin-left: 1rem;
   font-family: "Georgia", serif;
   letter-spacing: 0.5px;
@@ -43,22 +39,32 @@ html {
 }
 
 .navbar-nav .nav-link:hover {
-  color: rgba(255, 255, 255, 1);
+  color: rgb(88, 85, 85);
 }
 
 .navbar-nav .nav-link:hover::after {
   transform: scaleX(1);
 }
+
 .btn-custom {
-  background-color: #f5f5dc; /* Light background */
+  background-color: #f5f5dc; /* Light beige */
   color: #111;
-  border-radius: 0;
-  padding: 0.5rem 1.5rem;
+  border: 2px solid transparent;
+  padding: 0.6rem 1.8rem;
   font-family: "Georgia", serif;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50px; /* Fully rounded button */
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 10px rgba(245, 245, 220, 0.5); /* Soft glow effect */
 }
+
 .btn-custom:hover {
-  background-color: #ebeb8c;
+  background-color: rgba(255, 69, 0, 0.6);
+  color: #222;
   border: 2px solid white;
+  transform: scale(1.05); /* Slight zoom effect on hover */
+  box-shadow: 0 6px 15px rgba(245, 245, 220, 0.7); /* More glow on hover */
 }
 
 .navbar .btn-custom {
@@ -73,30 +79,32 @@ html {
 }
 
 .profile-dropdown img {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .profile-dropdown img:hover {
   transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(208, 221, 208, 0.8);
 }
 
 .dropdown-menu {
   position: absolute;
   top: 60px;
   right: 0;
-  background: #333;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  background: #D0DDD0; /* Soft greenish-gray */
+  border-radius: 10px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
   transition: all 0.3s ease-in-out;
-  width: 150px;
+  width: 170px;
   z-index: 1000;
+  overflow: hidden;
 }
 
 .dropdown-menu.show {
@@ -106,15 +114,32 @@ html {
 }
 
 .dropdown-menu a {
-  color: #fff;
-  padding: 10px 15px;
+  color: #222;
+  padding: 12px 18px;
   display: block;
+  font-weight: bold;
   text-decoration: none;
-  transition: background 0.3s ease-in-out;
+  font-family: "Georgia", serif;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .dropdown-menu a:hover {
-  background: #444;
+  background: #c0ccc0; /* Slightly darker shade */
+  color: #111;
+}
+
+.dropdown-divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.text-danger {
+  color: #ff4c4c !important;
+  font-weight: bold;
+}
+
+.text-danger:hover {
+  background: rgba(255, 76, 76, 0.2);
+  color: #d43f3f !important;
 }
 
 @media (max-width: 991px) {
@@ -147,7 +172,7 @@ html {
       left: -250px; /* Initially off-screen */
       width: 250px;
       height: 100vh;
-      background-color: #111;
+      background-color: #D0DDD0;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
       transition: left 0.3s ease-in-out;
       padding-top: 20px;
@@ -176,7 +201,7 @@ html {
   }
 
   .sidebar-nav .navbar-nav .nav-link {
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(43, 41, 41, 0.8);
       padding: 12px 20px;
       font-size: 1.2rem;
       transition: background 0.3s ease-in-out;
@@ -209,11 +234,16 @@ html {
 
 /* Footer Code Starts Here */
 
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline:opsz,wght@10..72,100..900&display=swap');
+
 .footer {
-  background: black; /* Replace with your actual image */
+  background: #D0DDD0;
   background-size: cover;
   background-position: center;
-  color: white;
+  color: rgb(43, 41, 41) !important;
+  font-family: "Big Shoulders Inline", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   text-align: center;
   padding: 20px 0;
   position: relative;
@@ -259,73 +289,6 @@ html {
 }
 
 /* Footer Code Ends Here */
-
-/* About Us Code Starts Here */
-.about {
-  width: 100%;
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 15vh 0 !important;
-}
-.about-container {
-  display: flex;
-  max-width: 1200px;
-  width: 100%;
-  justify-content: space-around;
-  align-items: center;
-  padding: 40px;
-}
-.about-content, .about-image {
-  flex: 1;
-  text-align: center;
-  color: white;
-  width: 100%;
-}
-.about-heading {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-.about-text {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-}
-.about-button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  background: #dcca87;
-  color: black;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.about-button:hover {
-  background-color: #bfa75e;
-}
-.about-image img {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 15px;
-}
-@media (max-width: 768px) {
-  .about {
-      padding: 6vh 0 !important;
-  }
-  .about-container {
-      flex-direction: column;
-      text-align: center;
-  }
-  .about-content, .about-image {
-      width: 100%;
-      text-align: center;
-      margin-top: 60px;
-  }
-}
-
-/* About Us Code Ends Here */
 
 /* Flash Code Starts Here */
 

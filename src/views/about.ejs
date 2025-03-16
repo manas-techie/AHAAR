@@ -1,26 +1,83 @@
 <% layout('layout/boilerplate.ejs') %>
-<div class="about">
-    <div class="about-container" style="background-image: url('/assets/bg.png');">
-        <div class="about-content">
-            <h2 class="about-heading">About Us</h2>
-            <p class="about-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis
-                pharetra adipiscing ultrices.
-            </p>
-            <button class="about-button">Know More</button>
-        </div>
 
-        <div class="about-image">
-            <img src="/assets/" alt="Knife">
-        </div>
 
-        <div class="about-content">
-            <h2 class="about-heading">Our History</h2>
-            <p class="about-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed
-                odio nec aliquet eu proin mauris.
-            </p>
-            <button class="about-button">Know More</button>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+
+.about-area{
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+.about-img{
+    position: relative;
+}
+.about-img:before{
+    position: absolute;
+    content: '';
+    right: -30px;
+    top: 30px;
+    border: 9px solid rgba(255, 255, 255, 0.5);
+    width: 100%;
+    height: 100%;
+}
+.about-img img{
+    width: 100%;
+}
+.about-text{
+    padding-top: 20%;
+    margin-left: 10%;
+}
+.about-text h2{
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    font-size: 50px;
+}
+.about-text p{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 18px;
+    color: black;
+}
+.about-text a{
+    background: #b5a7f8;
+    color: #fff;
+    padding: 7px 15px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+body {
+    background-color: #EDEDED !important;
+}
+</style>
+
+<div class="about-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="about-img">
+                    <img src="/assets/aboutUsImg.png" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 col-lg-offset-1">
+                <div class="about-text">
+                    <h2>About Us</h2>
+                    <p>This is a website which helps restaurant owner to make dynamic menu card, which is upgradeble and also user can give review to the restaurant or a partcular item of a menu, this helps customer to choose what to order and also helps the restaurant owner to improve the food quality.</p>
+                    <p>This website is a project developed by three UEM-Jaipur Student Manas Shet, Suman Kumar Dey and Sayan Santra.</p>
+                    <a href="#" style="text-decoration: none;">Learn More</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+

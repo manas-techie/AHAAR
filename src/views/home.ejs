@@ -1,352 +1,932 @@
 <% layout('layout/boilerplate.ejs') %>
 
 <style>
-  body {
-    background: url("/assets/bg.png") no-repeat center center fixed;
-    background-size: cover;
-    margin: 0;
-    padding: 0;
+  :root {
+  --clr-accent-500: hsl(12, 60%, 45%);
+  --clr-accent-400: hsl(12, 88%, 59%);
+  --clr-accent-300: hsl(12, 88%, 75%);
+  --clr-accent-100: hsl(13, 100%, 96%);
+
+  --clr-primary-400: hsl(228, 39%, 23%);
+
+  --clr-neutral-900: hsl(232, 12%, 13%);
+  --clr-neutral-200: hsl(0 0% 97%);
+  --clr-neutral-100: hsl(0 0% 100%);
+
+  --ff-primary: "Be Vietnam Pro", sans-serif;
+
+  --ff-body: var(--ff-primary);
+  --ff-heading: var(--ff-primary);
+
+  --fw-regular: 400;
+  --fw-semi-bold: 500;
+  --fw-bold: 700;
+
+  --fs-300: 0.8125rem;
+  --fs-400: 0.875rem;
+  --fs-500: 0.9375rem;
+  --fs-600: 1rem;
+  --fs-700: 1.875rem;
+  --fs-800: 2.5rem;
+  --fs-900: 3.5rem;
+
+  --fs-body: var(--fs-400);
+  --fs-primary-heading: var(--fs-800);
+  --fs-secondary-heading: var(--fs-700);
+  --fs-nav: var(--fs-500);
+  --fs-button: var(--fs-300);
+
+  --size-100: 0.25rem;
+  --size-200: 0.5rem;
+  --size-300: 0.75rem;
+  --size-400: 1rem;
+  --size-500: 1.5rem;
+  --size-600: 2rem;
+  --size-700: 3rem;
+  --size-800: 4rem;
+  --size-900: 5rem;
+}
+
+@media (min-width: 47em) {
+  :root {
+    --fs-body: var(--fs-500);
+    --fs-primary-heading: var(--fs-900);
+    --fs-secondary-heading: var(--fs-800);
+
+    --fs-nav: var(--fs-300);
   }
-  .overlay {
-    background-color: rgba(0, 0, 0, 0.7);
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+/* Set core body defaults */
+body {
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
   }
 
-  .menu-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    padding: 50px 0;
-    background-color: black;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
 
-  .menu-item img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 15px;
-  }
+/* general styling */
 
-  .menu-img img {
-    height: 107vh;
-    width: 40vw;
-  }
+body {
+  font-size: var(--fs-body);
+  font-family: var(--ff-body);
+  color: var(--clr-primary-400);
+}
 
-  /* Hide on small screens */
-  @media (max-width: 768px) {
-    .menu-section {
-      display: none !important;
-    }
-  }
+p:not([class]) {
+  opacity: 0.7;
+  max-width: 32ch;
+}
 
+p[data-width="wide"] {
+  max-width: 42ch;
+}
 
+/* button */
 
-  .belief-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5vh 10vw;
-    color: whitesmoke;
-  }
-  .belief-image {
+.button {
+  display: inline-flex;
+  cursor: pointer;
+  text-decoration: none;
+  border: 0;
+  border-radius: 100vmax;
+  padding: 1.25em 2.5em;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-button);
+  line-height: 1;
+  color: var(--clr-neutral-100);
+  background-color: var(--clr-accent-400);
+  box-shadow: 0 1.125em 1em -1em var(--clr-accent-500);
+}
+
+.button[data-type="inverted"] {
+  background-color: var(--clr-neutral-100);
+  color: var(--clr-accent-400);
+}
+
+.button[data-shadow="none"] {
+  box-shadow: none;
+}
+
+.button:hover,
+.button:focus-visible {
+  background-color: var(--clr-accent-300);
+}
+
+.button[data-type="inverted"]:hover,
+.button[data-type="inverted"]:focus-visible {
+  background-color: var(--clr-neutral-100);
+  color: var(--clr-accent-300);
+}
+
+/* navigation */
+
+.primary-header {
+  padding-top: var(--size-700);
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-nav-toggle {
+  display: none;
+}
+
+.nav-list {
+  font-size: var(--fs-nav);
+}
+
+.nav-list {
+  display: flex;
+  gap: clamp(var(--size-400), 5vw, var(--size-700));
+  font-weight: var(--fw-semi-bold);
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: var(--clr-primary-400);
+}
+
+.nav-list a:hover,
+.nav-list a:focus {
+  color: var(--clr-accent-400);
+}
+
+@media (max-width: 47em) {
+  .primary-header[data-overlay] {
     position: relative;
-    max-width: 400px;
+    z-index: 999;
   }
-  .belief-image img {
-    width: 100%;
-    border-radius: 10px;
+
+  .primary-navigation {
+    display: none;
+    position: fixed;
+    padding: var(--size-700);
+    inset: 7rem var(--size-400) auto;
+    max-width: 25rem;
+    margin-inline: auto;
+    background: var(--clr-neutral-100);
+    border-radius: var(--size-100);
+    box-shadow: 0 0 0.75em rgb(0, 0, 0, 0.05);
   }
-  .belief-image::before,
-  .belief-image::after {
+
+  .primary-header[data-overlay]::before {
     content: "";
-    position: absolute;
-    border: 5px solid #dcca87;
-  }
-  .belief-image::before {
-    top: -20px;
-    left: -20px;
-    width: 80%;
-    height: 80%;
-  }
-  .belief-image::after {
-    bottom: -20px;
-    right: -20px;
-    width: 80%;
-    height: 80%;
-  }
-  .belief-text {
-    padding-left: 50px;
-    max-width: 600px;
-  }
-  .belief-text h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-  }
-  .quote {
-    font-style: italic;
-    font-size: 1.2rem;
-  }
-  .author {
-    margin-top: 20px;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  .title {
-    font-size: 1rem;
-    color: white;
-  }
-  @media (max-width: 768px) {
-    .belief-section {
-      flex-direction: column;
-      text-align: center;
-    }
-    .belief-text {
-      padding-left: 0;
-      margin-top: 20px;
-    }
+    position: fixed;
+    inset: 0;
+    /* height: 100vh; */
+    background-image: linear-gradient(rgb(0 0 0/0), rgb(0 0 0 / 0.8));
   }
 
+  .nav-list {
+    display: grid;
+    gap: var(--size-600);
+    text-align: center;
+    font-weight: var(--fw-bold);
+  }
 
-  /* .awards-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 50px;
-            background-color: black;
-        }
-        .awards-text {
-            flex: 1;
-        }
-        .awards-text h2 {
-            font-size: 3rem;
-            font-weight: bold;
-        }
-        .award-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .award-item span {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .award-number {
-            background: #d4c08f;
-            color: black;
-            font-weight: bold;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            margin-right: 10px;
-        } */
-        .carousel-container {
-            flex: 1;
-            position: relative;
-        }
-        .carousel img {
-            height: 100vh;
-            border-radius: 10px;
-        } 
+  .primary-navigation[data-visible] {
+    display: block;
+  }
 
+  .mobile-nav-toggle {
+    display: block;
+    position: fixed;
+    top: var(--size-600);
+    right: var(--size-400);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    padding: 0.5em;
+    width: 1.65rem;
+    aspect-ratio: 1;
+    background-image: url("images/icon-hamburger.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 
+  .mobile-nav-toggle[aria-expanded="true"] {
+    background-image: url("images/icon-close.svg");
+  }
+}
 
+/* footer */
 
+.primary-footer {
+  --logo-color: var(--clr-neutral-100);
+}
 
-        .newsletter-box {
-            border: 1px solid #5e4d17;
-            padding: 50px;
-            text-align: center;
-            max-width: 600px;
-            margin: auto;
-            color: whitesmoke;
-        }
-        .newsletter-title {
-            font-size: 2rem;
-            color: #d4af37;
-        }
-        .email-input {
-            border: 1px solid #d4af37;
-            background: transparent;
-            color: #d4af37;
-        }
-        .email-input::placeholder {
-            color: #d4af37;
-        }
-        .subscribe-btn {
-            background-color: #d4af37;
-            color: #000;
-            border: none;
-        }
+.primary-footer__wrapper {
+  display: grid;
+  gap: var(--size-700);
+  justify-content: center;
+  align-items: start;
+  grid-template-areas:
+    "form"
+    "nav"
+    "social"
+    "logo"
+    "copyright";
+}
+
+.primary-footer__logo {
+  grid-area: logo;
+}
+
+.primary-footer__form {
+  grid-area: form;
+}
+
+.primary-footer__copyright {
+  grid-area: copyright;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.primary-footer__nav-wrapper {
+  grid-area: nav;
+  margin-inline: auto;
+}
+
+/* footer navigation */
+
+.footer-nav {
+  columns: 2;
+  gap: clamp(4rem, 10vw, 7rem);
+}
+
+.footer-nav a {
+  color: var(--clr-neutral-100);
+  text-decoration: none;
+}
+
+.footer-nav a:is(:hover, :focus) {
+  color: var(--clr-accent-400);
+}
+
+.primary-footer__form {
+  grid-area: form;
+  display: flex;
+  gap: var(--size-200);
+}
+
+input:where([type="text"], [type="email"]) {
+  border-radius: 100vw;
+  border: 0;
+  padding: var(--size-300) var(--size-500);
+  width: max(100%, 14rem);
+}
+
+@media (min-width: 47em) {
+  .primary-footer__wrapper {
+    grid-template-areas:
+      "logo nav form"
+      "social nav copyright";
+    grid-template-columns: min-content 1fr auto;
+  }
+
+  .primary-footer__copyright {
+    text-align: right;
+  }
+}
+
+@media (max-width: 47em) {
+  .primary-footer__wrapper > * {
+    margin-inline: auto;
+  }
+}
+
+/* social list */
+
+.social-list {
+  display: flex;
+  gap: var(--size-600);
+}
+
+.social-icon {
+  width: var(--size-600);
+  aspect-ratio: 1;
+  fill: var(--clr-neutral-100);
+}
+
+@media (min-width: 47em) {
+  .social-list {
+    gap: var(--size-300);
+  }
+
+  .social-icon {
+    width: var(--size-500);
+    max-width: revert;
+  }
+}
+
+.social-list a:is(:hover, :focus) .social-icon {
+  fill: var(--clr-accent-400);
+}
+
+@media (min-width: 47em) {
+  .social-list {
+    gap: var(--size-300);
+  }
+
+  .social-icon {
+    width: var(--size-500);
+  }
+}
+
+/* cta */
+
+.cta {
+  position: relative;
+  isolation: isolate;
+  text-align: center;
+}
+
+@media (min-width: 47em) {
+  .cta {
+    text-align: left;
+  }
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: url("images/bg-tablet-pattern.svg"),
+    url("images/bg-tablet-pattern.svg");
+  background-position: -15rem -5rem, 80rem -42rem;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+}
+
+/* numbered items */
+
+.numbered-items {
+  counter-reset: count;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.numbered-items li {
+  counter-increment: count;
+}
+
+.numbered-items div {
+  display: grid;
+  position: relative;
+  align-items: center;
+  column-gap: var(--size-300);
+  grid-template-columns: min-content 1fr;
+}
+
+.numbered-items__title {
+  grid-row: 1/2;
+  grid-column: 2/3;
+  line-height: 1;
+}
+
+.numbered-items__body {
+  grid-column: 1/-1;
+}
+
+@media (min-width: 30em) {
+  .numbered-items__body {
+    grid-column: 2/-1;
+  }
+}
+
+.numbered-items div::before,
+.numbered-items div::after {
+  height: 40px;
+}
+
+.numbered-items div::before {
+  content: "0" counter(count);
+  display: flex;
+  align-items: center;
+  color: var(--clr-neutral-100);
+  font-weight: var(--fw-bold);
+  background-color: var(--clr-accent-400);
+  padding: 0 var(--size-500);
+  border-radius: 100vw;
+  grid-row: 1/2;
+  grid-column: 1/2;
+}
+
+@media (max-width: 30em) {
+  .numbered-items div::after {
+    --bg: var(--clr-accent-100);
+    content: "";
+    display: block;
+    z-index: -1;
+    border-radius: 100vw 0 0 100vw;
+    grid-column: 1/-1;
+    grid-row: 1/2;
+    box-shadow: 5em 0 0 var(--bg);
+    background: var(--bg);
+  }
+}
+
+/* slider */
+
+.slider {
+  display: flex;
+  gap: var(--size-600);
+  list-style: none;
+}
+
+.a11y-slider-container {
+  margin: var(--size-700) var(--size-400);
+}
+
+.slider > * {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 30em) {
+  .slider {
+    scroll-padding-inline: 25px;
+  }
+
+  .a11y-slider-container {
+    margin-inline: 0;
+  }
+
+  .slider > * {
+    width: 50%;
+  }
+}
+
+@media (min-width: 47em) {
+  .slider > * {
+    width: 35%;
+  }
+}
+
+.slider-content {
+  border-radius: var(--size-100);
+  padding: var(--size-700) var(--size-600) var(--size-600);
+  background: var(--clr-neutral-200);
+}
+
+.slider img {
+  width: var(--size-800);
+  position: relative;
+  top: calc(var(--size-800) / 2);
+  margin-inline: auto;
+}
+
+.a11y-slider-dots {
+  display: flex;
+  justify-content: center;
+  margin-block: var(--size-500);
+  gap: var(--size-300);
+}
+
+.a11y-slider-dots li {
+  display: block;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+}
+
+.a11y-slider-dots li button {
+  display: block;
+  font-size: 0;
+  text-indent: -9999px;
+  background: transparent;
+  border: 1px solid var(--clr-accent-400) !important;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+.a11y-slider-dots li button.active {
+  background: var(--clr-accent-400);
+}
+
+/* hero */
+
+@media (max-width: 47em) {
+  .hero__image {
+    order: -1;
+  }
+}
+
+.hero__image::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  top: 0;
+  width: 87%;
+  max-height: 70vh;
+  max-height: 70dvh;
+  aspect-ratio: 1/1.2;
+  background-image: url("/images/bg-tablet-pattern.svg");
+  background-repeat: no-repeat;
+  background-position: bottom left;
+}
+
+@media (min-width: 47em) {
+  .hero__image::before {
+    width: 45%;
+  }
+}
+
+/* sales points */
+
+.sales-points__blog {
+  position: relative;
+}
+
+.sales-points__blog::before {
+  content: url("images/bg-tablet-pattern.svg");
+  zoom: 40%;
+  position: absolute;
+  z-index: -1;
+  left: 70%;
+  bottom: 120%;
+  width: 100px;
+}
+
+@media (min-width: 47em) {
+  .sales-points__blog::before {
+    zoom: 70%;
+    z-index: -1;
+    left: -500px;
+    top: 42%;
+    width: 100px;
+  }
+}
+
+/* Utility classes */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  --max-width: 1110px;
+  --container-padding: 1rem;
+
+  width: min(var(--max-width), 100% - (var(--container-padding) * 2));
+  margin-inline: auto;
+}
+
+.even-columns {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 47em) {
+  .even-columns {
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+}
+
+.vertical-align-center {
+  align-items: center;
+}
+
+.justify-self-end {
+  justify-self: end;
+}
+
+@media (min-width: 47em) {
+  .justify-self-end-md {
+    justify-self: end;
+  }
+}
+
+:where(.flow > :not(:first-child)) {
+  margin-top: var(--flow-spacer, 3em);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-center p {
+  margin-inline: auto;
+}
+
+@media (max-width: 47em) {
+  .text-center-sm-only {
+    text-align: center;
+  }
+
+  .text-center-sm-only p {
+    margin-inline: auto;
+  }
+}
+
+.text-primary-400 {
+  color: var(--clr-primary-400);
+}
+.text-accent-400 {
+  color: var(--clr-accent-400);
+}
+.text-accent-100 {
+  color: var(--clr-accent-100);
+}
+.text-neutral-100 {
+  color: var(--clr-neutral-100);
+}
+.text-neutral-900 {
+  color: var(--clr-neutral-900);
+}
+
+.bg-primary-400 {
+  background-color: var(--clr-primary-400);
+}
+.bg-accent-400 {
+  background-color: var(--clr-accent-400);
+}
+.bg-accent-100 {
+  background-color: var(--clr-accent-100);
+}
+.bg-neutral-100 {
+  background-color: var(--clr-neutral-100);
+}
+.bg-neutral-900 {
+  background-color: var(--clr-neutral-900);
+}
+
+.fw-bold {
+  font-weight: var(--fw-bold);
+}
+.fw-semi-bold {
+  font-weight: var(--fw-semi-bold);
+}
+.fw-regular {
+  font-weight: var(--fw-regular);
+}
+
+.fs-primary-heading {
+  font-size: var(--fs-primary-heading);
+  line-height: 1.1;
+}
+.fs-secondary-heading {
+  font-size: var(--fs-secondary-heading);
+  line-height: 1.1;
+}
+
+.fs-300 {
+  font-size: var(--fs-300);
+}
+.fs-400 {
+  font-size: var(--fs-400);
+}
+.fs-500 {
+  font-size: var(--fs-500);
+}
+.fs-600 {
+  font-size: var(--fs-600);
+}
+
+.padding-block-900 {
+  padding-block: var(--size-900);
+}
+.padding-block-700 {
+  padding-block: var(--size-700);
+}
+
+.margin-bottom-700 {
+  margin-block-end: var(--size-700);
+}
+
+.margin-top-900 {
+  margin-block-start: var(--size-900);
+}
+
+.mx-auto {
+  margin-inline: auto;
+}
+
+.display-sm-none {
+  display: none;
+}
+
+@media (min-width: 47em) {
+  .display-md-inline-flex {
+    display: inline-flex;
+  }
+}
 </style>
 <body>
-  <div class="overlay">
-    <div id="carouselExampleDark" class="carousel carousel-dark slide">
-      <div class="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#carouselExampleDark"
-          data-bs-slide-to="0"
-          class="active"
-          aria-current="true"
-          aria-label="Slide 1"></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleDark"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleDark"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active" data-bs-interval="10000">
-          <img src="/assets/poster1.jpg" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block"></div>
-        </div>
-        <div class="carousel-item" data-bs-interval="2000">
-          <img src="/assets/poster2.jpg" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block"></div>
-        </div>
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </div>
-  <div class="about">
-    <div class="about-container">
-      <div class="about-content">
-        <h2 class="about-heading">About Us</h2>
-        <p class="about-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis pharetra
-          adipiscing ultrices.
-        </p>
-        <button class="about-button">Know More</button>
-      </div>
-      <div class="about-image">
-        <img src="/assets/aboutUsLogo.png" alt="About Us" />
-      </div>
-      <div class="about-content">
-        <h2 class="about-heading">Our History</h2>
-        <p class="about-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed odio
-          nec aliquet eu proin mauris.
-        </p>
-        <button class="about-button">Know More</button>
-      </div>
-    </div>
-  </div>
-  <div class="menu-section d-none d-md-flex">
-    <div class="menu-item">
-      <img src="/assets/menu1.jpg" alt="Menu Item 1" />
-    </div>
-    <div class="menu-img">
-      <img src="/assets/menu.png" alt />
-    </div>
-    <div class="menu-item">
-      <img src="/assets/menu2.jpg" alt="Menu Item 2" />
-    </div>
-  </div>
-  <div class="belief-section">
-    <div class="belief-image">
-      <img src="/assets/chef.png" alt="Chef Kevin Luo" />
-    </div>
-    <div class="belief-text">
-      <h2>What We Believe In</h2>
-      <p class="quote">
-        &ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-        sit.&rdquo;
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate nulla
-        lobortis mauris eget sit. Nulla scelerisque scelerisque congue ac
-        consequat.
-      </p>
-      <p class="author"></p>
-      <p class="title"></p>
-    </div>
-  </div>
-  <div class="container-fluid awards-section">
-    <div class="row align-items-center">
-
-      <!-- Carousel Section -->
-      <div class="col-md-6 col-12 d-flex justify-content-center">
-        <div class="carousel-container">
-          <div id="carouselExample" class="carousel slide"
-            data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="/assets/small_sliding1.jpg" alt="Food Image"
-                  class="img-fluid">
-              </div>
-              <div class="carousel-item">
-                <img src="/assets/small_sliding2.png" alt="Restaurant"
-                  class="img-fluid">
-              </div>
-            </div>
+  <main>
+    <section class="hero | text-center-sm-only padding-block-900">
+      <div class="container">
+        <div class="even-columns">
+          <div class="flow">
+            <h1 class="fs-primary-heading fw-bold">
+              List Your Restaurant Today.
+            </h1>
+            <p>
+              Dynamic menu makes it simple for restaurants to plan day-to-day
+              menu while also changing the menu accordingly in just 
+              <span style="font-weight: bold; color: orangered;">30 seconds</span>.
+            </p>
+            <button class="button">Get Started</button>
+          </div>
+          <div class="hero__image">
+            <img class="mx-auto" src="images/illustration-intro.svg" alt="" />
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Text Section -->
-      <div class="col-md-6 col-12 awards-text text-md-start text-center">
-        <h2>Our Laurels</h2>
-        <div class="award-item">
-          <div class="award-number">1</div>
-          <span>Rising Star</span>
-        </div>
-        <div class="award-item">
-          <div class="award-number">2</div>
-          <span>Bib Gourmond</span>
-        </div>
-        <div class="award-item">
-          <div class="award-number">3</div>
-          <span>Outstanding Chef</span>
-        </div>
-        <div class="award-item">
-          <div class="award-number">5</div>
-          <span>AA Hospitality</span>
+    <section class="sales-points | padding-block-900">
+      <div class="container">
+        <div class="even-columns">
+          <div
+            class="sales-points__blog | flow text-center-sm-only margin-bottom-700"
+            style="--flow-spacer: 1.5rem"
+          >
+            <h2 class="fs-secondary-heading fw-bold">
+              What's diffent about AHAAR?
+            </h2>
+            <p>
+              AHAAR provides all the functionality your team needs, without
+              the complexity. Our software is tailor-made for modern digital
+              product teams.
+            </p>
+          </div>
+          <div>
+            <ul class="numbered-items | flow" role="list">
+              <li>
+                <div class="flow" style="--flow-spacer: 1em">
+                  <h3 class="numbered-items__title | fs-600 fw-bold">
+                    Track company-wide progress
+                  </h3>
+                  <p class="numbered-items__body" data-width="wide">
+                    See how your day-to-day tasks fit into the wider vision.
+                    Go from tracking progress at the milestone level all the
+                    way done to the smallest of details. Never lose sight of
+                    the bigger picture again.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="flow" style="--flow-spacer: 1em">
+                  <h3 class="numbered-items__title | fs-600 fw-bold">
+                    Advanced built-in reports
+                  </h3>
+                  <p class="numbered-items__body" data-width="wide">
+                    Set internal delivery estimates and track progress toward
+                    company goals. Our customisable dashboard helps you build
+                    out the reports you need to keep key stakeholders
+                    informed.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="flow" style="--flow-spacer: 1em">
+                  <h3 class="numbered-items__title | fs-600 fw-bold">
+                    Everything you need in one place
+                  </h3>
+                  <p class="numbered-items__body" data-width="wide">
+                    Stop jumping from one service to another to communicate,
+                    store files, track tasks and share documents. Manage
+                    offers an all-in-one team productivity solution.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+    </section>
 
-    </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="newsletter-box">
-      <h5>Newsletter</h5>
-      <hr style="border: 1px solid #d4af37; width: 50px; margin: auto;">
-      <h2 class="newsletter-title mt-3">Subscribe To Our Newsletter</h2>
-      <p>And Never Miss Latest Updates!</p>
-      <p class="fw-bold">Join our email list for future updates</p>
-      <div class="input-group mt-3">
-        <input type="email" class="form-control email-input"
-          placeholder="Enter your E-mail Address">
-        <button class="btn subscribe-btn">Subscribe</button>
+    <section class="carousel | padding-block-900 text-center">
+      <h2 class="fs-secondary-heading fw-bold">What they've said</h2>
+      <!-- Carousel here -->
+      <div class="slider-container">
+        <ul class="slider">
+          <li>
+            <img src="images/avatar-anisha.png" alt="" />
+            <div class="slider-content | flow">
+              <h3 class="fw-bold">Anisha Li</h3>
+              <p>“Manage has supercharged our team’s workflow...”</p>
+            </div>
+          </li>
+          <li>
+            <img src="images/avatar-ali.png" alt="" />
+            <div class="slider-content | flow">
+              <h3 class="fw-bold">Ali Bravo</h3>
+              <p>“We have been able to cancel so many other subscriptions...”</p>
+            </div>
+          </li>
+          <li>
+            <img src="images/avatar-richard.png" alt="" />
+            <div class="slider-content | flow">
+              <h3 class="fw-bold">Richard Watts</h3>
+              <p>“Manage allows us to provide structure and process...”</p>
+            </div>
+          </li>
+          <li>
+            <img src="images/avatar-shanai.png" alt="" />
+            <div class="slider-content | flow">
+              <h3 class="fw-bold">Shanai Gough</h3>
+              <p>“Their software allows us to track, manage and collaborate...”</p>
+            </div>
+          </li>
+        </ul>
       </div>
-    </div>
-  </div>
+      <button class="button">Get Started</button>
+    </section>
+
+    <section
+      class="cta | margin-top-900 padding-block-900 bg-accent-400 text-neutral-100"
+    >
+      <div class="container">
+        <div class="even-columns vertical-align-center">
+          <div>
+            <p class="fs-primary-heading fw-bold">
+              Simplify how your team works today.
+            </p>
+          </div>
+          <div class="justify-self-end-md">
+            <button class="button" data-type="inverted">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
 </body>
