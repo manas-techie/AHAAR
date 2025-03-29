@@ -23,6 +23,12 @@ const menuSchema = new mongoose.Schema({
         }
       ]
     }
+  ],
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'menuReview'
+    }
   ]
 }, { timestamps: true });
 
