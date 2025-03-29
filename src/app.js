@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 
 app.use('/', mainRoute);
 app.use('/restaurant', restaurantRoute)
-app.use('/user', userRoute);
+app.use('/dealer', userRoute);
 app.use('/restaurant/:id/review', reviewRoute);
 app.use('/menu', menuRoute);
 app.use('/menu',menuReviewRoute);
