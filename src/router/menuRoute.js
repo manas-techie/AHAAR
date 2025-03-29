@@ -120,7 +120,7 @@ router.post('/:currUserId/edit', async (req, res) => {
 router.get("/:currUserId/qrcode", (req, res) => {
     let { currUserId } = req.params;
     // const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    let fullUrl = `${req.protocol}://192.168.198.135:3000/menu/${currUserId}`;
+    let fullUrl = `${req.protocol}://192.168.27.76:3000/menu/${currUserId}`;
 
     QRCode.toDataURL(fullUrl, function (err, qrUrl) {
         if (err) {
@@ -130,5 +130,22 @@ router.get("/:currUserId/qrcode", (req, res) => {
     })
 
 });
+
+//Chatbot route
+router.get('/:currUserId/chatbot', async (req, res) => {
+    let { currUserId } = req.params;
+    try {
+        const menu = await Menu.findOne({ owner: currUserId }).populate({path:"reviews", populate:{path:"author"} });
+        if (!menu) {
+            return res.status(404).send("Menu not found");
+        }
+        res.render('chatbot/chatbot.ejs', { menu, currUserId });
+    } catch (error) {
+        console.error("Error fetching menu for chatbot:", error);
+        res.status(500).send("Error loading chatbot page.");
+    }
+});
+
+
 
 module.exports = router;

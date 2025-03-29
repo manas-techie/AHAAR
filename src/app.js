@@ -12,8 +12,14 @@ const ExpressError = require("./utils/expressError.js")
 const methodOverride = require('method-override');
 
 
+const http = require('http'); 
+const socketio = require('socket.io'); 
+
 require('./db/connectToDB.js');
 
+
+const server = http.createServer(app); 
+const io = socketio(server);
 
 
 const mainRoute = require('./router/mainRoute.js')
@@ -22,6 +28,8 @@ const userRoute = require('./router/userRoute.js');
 const reviewRoute = require('./router/reviewRoute.js');
 const menuRoute = require('./router/menuRoute.js');
 const menuReviewRoute = require('./router/menuReviewRoute.js');
+
+const { getMenuWithReviews, askGemini } = require('./chatBot/chatBot.js');
 
 
 const sessionOptions = {
@@ -82,8 +90,34 @@ app.use((err, req, res, next) => {
 });
 
 
+
+// Socket.io connection
+
+io.on("connection", (socket) => {
+    console.log("New user connected to the chatbot");
+
+    socket.on("userMessage", async (message) => {
+
+        try {
+            const menuId = "67e7d50baa286df6dea9b8db"; // Use a dynamic menuId if needed
+            const menuData = await getMenuWithReviews(menuId);
+            const botResponse = await askGemini(menuData, message);
+            socket.emit("botMessage", botResponse);
+        } catch (error) {
+            console.error("Chatbot error:", error);
+            socket.emit("botMessage", "Sorry, something went wrong.");
+        }
+    });
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected from the chatbot");
+    });
+});
+
+
+
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
