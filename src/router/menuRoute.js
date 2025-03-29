@@ -54,7 +54,7 @@ router.post('/:currUserId', async (req, res) => {
 router.get('/:currUserId', async (req, res) => {
     let { currUserId } = req.params;
     try {
-        const menu = await Menu.findOne({ owner: currUserId });
+        const menu = await Menu.findOne({ owner: currUserId }).populate({path:"reviews", populate:{path:"author"} });
         if (!menu) {
             return res.status(404).send("Menu not found");
         }
