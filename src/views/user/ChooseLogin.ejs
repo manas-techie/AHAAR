@@ -1,0 +1,80 @@
+<% layout('layout/boilerplate') %>
+
+
+<style>
+    body {
+      background: #f5f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .login-choice-container {
+      min-height: 100vh;
+    }
+
+    .choice-card {
+      background: white;
+      border: none;
+      border-radius: 12px;
+      padding: 30px 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .choice-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .choice-icon {
+      font-size: 3rem;
+      color: #0d6efd;
+      margin-bottom: 15px;
+    }
+
+    .choice-btn {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-weight: 600;
+      color: #333;
+    }
+  </style>
+
+
+
+<body>
+
+    <div class="container d-flex align-items-center justify-content-center login-choice-container">
+      <div class="row w-100 justify-content-center">
+        <div class="col-md-8">
+          <h2>Select Login Type</h2>
+          <div class="row g-4">
+            <!-- User Login Card -->
+            <div class="col-md-6">
+              <div class="choice-card text-center">
+                <div class="choice-icon">👤</div>
+                <h4>User Login</h4>
+                <p>Login to explore restaurants and place orders as a customer.</p>
+                <a href="/user/login" class="btn btn-primary choice-btn">User Login</a>
+              </div>
+            </div>
+  
+            <!-- Vendor Login Card -->
+            <div class="col-md-6">
+              <div class="choice-card text-center">
+                <div class="choice-icon">🏪</div>
+                <h4>Vendor Login</h4>
+                <p>Login to manage your restaurant and update your menu.</p>
+                <a href="/vendor/login" class="btn btn-success choice-btn">Vendor Login</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </body>
