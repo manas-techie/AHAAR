@@ -21,20 +21,18 @@ router.post('/signup', wrapAsync(async (req, res) => {
 
     } catch (e) {
         req.flash("error", e.message);
-        res.redirect("/user/signup");
+        res.redirect("/dealer/signup");
     }
 }));
 
 
-router.get('/chooselogin', (req, res) => {
-    res.render('user/ChooseLogin')
-});
+
 
 router.get('/login', saveRedirectUrl, (req, res) => {
     res.render('user/login');
 });
 
-router.post('/login', saveRedirectUrl, passport.authenticate("local", { failureRedirect: "/user/login", failureFlash: true }), wrapAsync(async (req, res) => {
+router.post('/login', saveRedirectUrl, passport.authenticate("local", { failureRedirect: "/dealer/login", failureFlash: true }), wrapAsync(async (req, res) => {
     req.flash("success", "Welcome back");
     res.redirect(res.locals.redirectUrl || "/");
 }));
@@ -49,7 +47,7 @@ router.get("/logout", (req, res, next) => {
             return next(err);
         }
         req.flash("success", "You have logged out");
-        res.redirect("/restaurant");
+        res.redirect("/");
     });
 });
 
