@@ -568,6 +568,11 @@
   }
   
   /* hero */
+
+  .carousel-item img{
+    border: 5px solid #f0f0d7;
+    border-radius: 10px;
+  }
   
   @media (max-width: 47em) {
     .hero__image {
