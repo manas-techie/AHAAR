@@ -1,74 +1,151 @@
 <% layout("layout/boilerplate.ejs") -%>
 
-<div class="row mt-5">
-  <div class="col-8 offset-2">
-    <h2>create a new restaurant</h2>
-    <form
-      method="POST"
-      action="/restaurant"
-      novalidate
-      class="needs-validation"
-    >
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input
-          type="text"
-          name="restaurant[title]"
-          placeholder="enter title"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">please give a title</div>
+<style>
+  .form-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    height: 100%;
+  }
+
+  .form-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  .form-label {
+    font-weight: 500;
+  }
+
+  .form-control::placeholder {
+    color: #aaa;
+    font-style: italic;
+  }
+
+  .btn-primary {
+    padding: 10px 25px;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .restaurant-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+
+  @media (max-width: 767px) {
+    .restaurant-image {
+      max-height: 250px;
+      margin-bottom: 20px;
+    }
+  }
+</style>
+
+<div class="container mt-5">
+  <div class="row g-4 align-items-start">
+    <!-- Left Image -->
+    <div class="col-md-6">
+      <img
+        src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5"
+        alt="Restaurant Visual"
+        class="restaurant-image"
+      />
+    </div>
+
+    <!-- Right Form -->
+    <div class="col-md-6">
+      <div class="form-container">
+        <h2 class="form-title">Create a New Restaurant</h2>
+
+        <form method="POST" action="/restaurant" novalidate class="needs-validation">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input
+              type="text"
+              name="restaurant[title]"
+              placeholder="Enter restaurant title"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">Please provide a title</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              name="restaurant[description]"
+              placeholder="Write something about your restaurant..."
+              rows="5"
+              class="form-control"
+              required
+            ></textarea>
+            <div class="invalid-feedback">Please provide a description</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="image" class="form-label">Image URL</label>
+            <input
+              type="text"
+              name="restaurant[image]"
+              placeholder="Paste an image URL (optional)"
+              class="form-control"
+            />
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input
+                type="text"
+                name="restaurant[location]"
+                placeholder="City or area"
+                class="form-control"
+                required
+              />
+              <div class="invalid-feedback">Location is required</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="country" class="form-label">Country</label>
+              <input
+                type="text"
+                name="restaurant[country]"
+                placeholder="Enter country"
+                class="form-control"
+                required
+              />
+              <div class="invalid-feedback">Country is required</div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary">Add</button>
+          </div>
+        </form>
       </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea
-          name="restaurant[description]"
-          placeholder="write somthing about your property"
-          rows="5"
-          class="form-control"
-          required
-        ></textarea>
-        <div class="invalid-feedback">please give a description</div>
-      </div>
-      <div class="mb-3">
-        <label for="image" class="form-label">Image Url</label>
-        <input
-          type="text"
-          name="restaurant[image]"
-          placeholder="enter image url"
-          class="form-control"
-        />
-      </div>
-      <!-- <div c  lass="mb-3">
-            <label for="image" class="form-label">Upload image</label>
-            <input type="file" name="restaurant[image]"class="form-control" required/>
-        </div> -->
-      <div class="row">
-        <div class="mb-3 col-md-6">
-          <label for="location" class="form-label">Location</label>
-          <input
-            type="text"
-            name="restaurant[location]"
-            placeholder="enter location"
-            class="form-control"
-            required
-          />
-          <div class="invalid-feedback">location is required</div>
-        </div>
-        <div class="mb-3 col-md-6">
-          <label for="country" class="form-label">Country</label>
-          <input
-            type="text"
-            name="restaurant[country]"
-            placeholder="enter country"
-            class="form-control"
-            required
-          />
-          <div class="invalid-feedback">country is required</div>
-        </div>
-      </div>
-      <button class="btn btn-primary mb-3">add</button>
-    </form>
+    </div>
   </div>
 </div>
+
+
+
+<script>
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>

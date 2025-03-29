@@ -1,167 +1,196 @@
 <% layout('layout/boilerplate') %>
 
-<head>
-    <style>
-        .form-container {
-            max-width: 600px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
+<style>
+    body {
+      background-color: #f8f9fa;
+    }
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+    .form-wrapper {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      height: 100%;
+    }
 
-        .category, .item {
-            background: #fafafa;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
+    .category, .item {
+      background: #fdfdfd;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
 
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
+    .form-label {
+      font-weight: 500;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+    .btn-delete {
+      background-color: #dc3545;
+      color: #fff;
+    }
 
-        button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px;
-            background: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
 
-        button:hover {
-            background: #218838;
-        }
+    .form-check-label {
+      margin-left: 0.5rem;
+      font-weight: normal;
+    }
 
-        .delete-btn {
-            background: #dc3545;
-        }
+    .menu-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
 
-        .delete-btn:hover {
-            background: #c82333;
-        }
-    </style>
+    @media (max-width: 767px) {
+      .menu-image {
+        max-height: 300px;
+        object-fit: cover;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
 
-    <script>
-        function addCategory() {
-            const categoriesDiv = document.getElementById("categories");
-            const categoryIndex = document.getElementsByClassName("category").length;
-
-            const categoryHTML = `
-                <div class="category">
-                    <h3>Category</h3>
-                    
-                    <label>Select Category:</label>
-                    <select name="categories[${categoryIndex}][name]" onchange="toggleCategoryInput(${categoryIndex})">
-                        <option value="">-- Select a Category --</option>
-                        <option value="veg">Veg</option>
-                        <option value="non-veg">Non-Veg</option>
-                        <option value="beverages">Beverages</option>
-                        <option value="desserts">Desserts</option>
-                    </select>
-
-                    <label>Or Enter New Category:</label>
-                    <input type="text" name="categories[${categoryIndex}][customName]" oninput="toggleCategoryDropdown(${categoryIndex})" placeholder="Enter new category name">
-
-                    <div class="items">
-                        <h4>Items</h4>
-                        <button type="button" onclick="addItem(${categoryIndex})">Add Item</button>
-                    </div>
-                    <button type="button" class="delete-btn" onclick="removeCategory(this)">Remove Category</button>
-                </div>
-            `;
-            categoriesDiv.insertAdjacentHTML("beforeend", categoryHTML);
-        }
-
-        function toggleCategoryInput(categoryIndex) {
-            const selectElement = document.getElementsByClassName("category")[categoryIndex].querySelector("select");
-            const inputElement = document.getElementsByClassName("category")[categoryIndex].querySelector("input");
-
-            if (selectElement.value !== "") {
-                inputElement.value = ""; // Clear the text input if a category is selected
-                inputElement.disabled = true;
-            } else {
-                inputElement.disabled = false;
-            }
-        }
-
-        function toggleCategoryDropdown(categoryIndex) {
-            const selectElement = document.getElementsByClassName("category")[categoryIndex].querySelector("select");
-            const inputElement = document.getElementsByClassName("category")[categoryIndex].querySelector("input");
-
-            if (inputElement.value.trim() !== "") {
-                selectElement.value = ""; // Clear the dropdown selection if the user types a new category
-                selectElement.disabled = true;
-            } else {
-                selectElement.disabled = false;
-            }
-        }
-
-        function addItem(categoryIndex) {
-            const itemsDiv = document.getElementsByClassName("category")[categoryIndex].querySelector(".items");
-            const itemIndex = itemsDiv.getElementsByClassName("item").length;
-
-            const itemHTML = `
-                <div class="item">
-                    <h4>Item</h4>
-                    <label>Name:</label>
-                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][name]" required>
-
-                    <label>Description:</label>
-                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][description]">
-
-                    <label>Price:</label>
-                    <input type="number" name="categories[${categoryIndex}][items][${itemIndex}][price]" required>
-
-                    <label>Image URL:</label>
-                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][imageUrl]">
-
-                    <label>Available:</label>
-                    <input type="checkbox" name="categories[${categoryIndex}][items][${itemIndex}][available]" checked>
-                    
-                    <button type="button" class="delete-btn" onclick="removeItem(this)">Remove Item</button>
-                </div>
-            `;
-            itemsDiv.insertAdjacentHTML("beforeend", itemHTML);
-        }
-
-        function removeCategory(button) {
-            button.parentElement.remove();
-        }
-
-        function removeItem(button) {
-            button.parentElement.remove();
-        }
-    </script>
-</head>
 
 <body>
-    <div class="form-container">
-        <h1>Create Menu</h1>
-        <form action="/menu/<%= currUser._id %>" method="POST">
-            <div id="categories"></div>
-            <button type="button" onclick="addCategory()">Add Category</button>
-            <button type="submit">Submit</button>
-        </form>
+    <div class="container my-5">
+      <div class="row g-4 align-items-start">
+        <!-- Left Image -->
+        <div class="col-md-6">
+          <img
+            src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092"
+            alt="Restaurant Menu"
+            class="menu-image"
+          />
+        </div>
+  
+        <!-- Right Form -->
+        <div class="col-md-6">
+          <div class="form-wrapper">
+            <h1 class="text-center mb-4">Create Menu</h1>
+            <form action="/menu/<%= currUser._id %>" method="POST">
+              <div id="categories"></div>
+  
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-success" onclick="addCategory()">+ Add Category</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
-</html>
+  </body>
+
+
+<script>
+    function addCategory() {
+      const categoriesDiv = document.getElementById("categories");
+      const categoryIndex = document.getElementsByClassName("category").length;
+
+      const categoryHTML = `
+        <div class="category">
+          <h4>Category</h4>
+          <div class="mb-3">
+            <label class="form-label">Select Category</label>
+            <select class="form-select" name="categories[${categoryIndex}][name]" onchange="toggleCategoryInput(${categoryIndex})">
+              <option value="">-- Select a Category --</option>
+              <option value="veg">Veg</option>
+              <option value="non-veg">Non-Veg</option>
+              <option value="beverages">Beverages</option>
+              <option value="desserts">Desserts</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Or Enter New Category</label>
+            <input type="text" class="form-control" name="categories[${categoryIndex}][customName]" oninput="toggleCategoryDropdown(${categoryIndex})" placeholder="Enter new category name">
+          </div>
+
+          <div class="items mb-3">
+            <h5>Items</h5>
+            <button type="button" class="btn btn-outline-primary btn-sm mb-2" onclick="addItem(${categoryIndex})">+ Add Item</button>
+          </div>
+
+          <button type="button" class="btn btn-delete btn-sm" onclick="removeCategory(this)">Remove Category</button>
+        </div>
+      `;
+      categoriesDiv.insertAdjacentHTML("beforeend", categoryHTML);
+    }
+
+    function toggleCategoryInput(categoryIndex) {
+      const category = document.getElementsByClassName("category")[categoryIndex];
+      const selectEl = category.querySelector("select");
+      const inputEl = category.querySelector("input");
+
+      if (selectEl.value !== "") {
+        inputEl.value = "";
+        inputEl.disabled = true;
+      } else {
+        inputEl.disabled = false;
+      }
+    }
+
+    function toggleCategoryDropdown(categoryIndex) {
+      const category = document.getElementsByClassName("category")[categoryIndex];
+      const selectEl = category.querySelector("select");
+      const inputEl = category.querySelector("input");
+
+      if (inputEl.value.trim() !== "") {
+        selectEl.value = "";
+        selectEl.disabled = true;
+      } else {
+        selectEl.disabled = false;
+      }
+    }
+
+    function addItem(categoryIndex) {
+      const itemsDiv = document.getElementsByClassName("category")[categoryIndex].querySelector(".items");
+      const itemIndex = itemsDiv.getElementsByClassName("item").length;
+
+      const itemHTML = `
+        <div class="item mt-3">
+          <h6>Item</h6>
+          <div class="mb-2">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="categories[${categoryIndex}][items][${itemIndex}][name]" required>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-control" name="categories[${categoryIndex}][items][${itemIndex}][description]">
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Price</label>
+            <input type="number" class="form-control" name="categories[${categoryIndex}][items][${itemIndex}][price]" required>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Image URL</label>
+            <input type="text" class="form-control" name="categories[${categoryIndex}][items][${itemIndex}][imageUrl]">
+          </div>
+
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" checked name="categories[${categoryIndex}][items][${itemIndex}][available]">
+            <label class="form-check-label">Available</label>
+          </div>
+
+          <button type="button" class="btn btn-delete btn-sm" onclick="removeItem(this)">Remove Item</button>
+        </div>
+      `;
+      itemsDiv.insertAdjacentHTML("beforeend", itemHTML);
+    }
+
+    function removeCategory(button) {
+      button.closest(".category").remove();
+    }
+
+    function removeItem(button) {
+      button.closest(".item").remove();
+    }
+  </script>

@@ -1,113 +1,181 @@
 <% layout('layout/boilerplate') %>
 
 <style>
-    .menu-items {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 20px;
+    .category-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+        padding: 20px;
+        margin-bottom: 30px;
     }
+
     .item-card {
-        width: 200px;
-        margin: 10px;
-        padding: 10px;
+        background-color: #f8f9fa;
         border-radius: 10px;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
+        padding: 15px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        text-align: left;
     }
-    .item-card img {
-        width: 100%;
-        border-radius: 10px;
+
+    .item-card input,
+    .item-card label {
+        font-size: 0.95rem;
     }
-    .price {
-        font-weight: bold;
-        color: green;
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+
+    .delete-btn {
+        color: #2e2e2e;
+        background: transparent;
+        border: 1px solid rgb(185, 50, 50);
+        border-radius: 3px;
+        padding: 5px;
+    }
+
+    .delete-btn:hover {
+        background-color: rgb(219, 54, 54);
+        color: white;
+    }
+
+    .section-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
     }
 </style>
 
-<form action="/menu/<%= currUserId %>/edit" method="POST">
-    <!-- Loop through categories -->
+<form action="/menu/<%= currUserId %>/edit" method="POST" class="container py-4">
     <div id="categories">
         <% menu.categories.forEach((category, categoryIndex) => { %>
-        <div class="category">
-            <input type="text" name="categories[<%= categoryIndex %>][name]"
-                value="<%= category.name %>" required>
-            <button type="button" onclick="deleteCategory(this)">Delete
-                Category</button>
+        <div class="category-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <input type="text" name="categories[<%= categoryIndex %>][name]"
+                    value="<%= category.name %>" class="form-control me-3" style="max-width: 300px;" required>
+                <button type="button" onclick="deleteCategory(this)" class="delete-btn">Delete Category</button>
+            </div>
 
-            <div class="menu-items">
+            <div class="row g-3">
                 <% category.items.forEach((item, itemIndex) => { %>
-                <div class="item-card">
-                    <input type="hidden"
-                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][id]"
-                        value="<%= item._id %>">
-                    <input type="text"
-                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][name]"
-                        value="<%= item.name %>" required>
-                    <input type="text"
-                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][description]"
-                        value="<%= item.description %>">
-                    <input type="number" step="0.01"
-                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][price]"
-                        value="<%= item.price %>" required>
-                    <input type="text"
-                        name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][imageUrl]"
-                        value="<%= item.imageUrl %>">
-                    <label>Available:
-                        <input type="checkbox"
-                            name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][available]"
-                            <%=item.available ? "checked" : "" %>>
-                    </label>
-                    <button type="button" onclick="deleteItem(this)">Delete
-                        Item</button>
+                <div class="col-md-6 col-lg-4">
+                    <div class="item-card">
+                        <input type="hidden"
+                            name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][id]"
+                            value="<%= item._id %>">
+
+                        <div class="mb-2">
+                            <input type="text"
+                                name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][name]"
+                                value="<%= item.name %>" class="form-control" placeholder="Item Name" required>
+                        </div>
+
+                        <div class="mb-2">
+                            <input type="text"
+                                name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][description]"
+                                value="<%= item.description %>" class="form-control" placeholder="Description">
+                        </div>
+
+                        <div class="mb-2">
+                            <input type="number" step="0.01"
+                                name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][price]"
+                                value="<%= item.price %>" class="form-control" placeholder="Price" required>
+                        </div>
+
+                        <div class="mb-2">
+                            <input type="text"
+                                name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][imageUrl]"
+                                value="<%= item.imageUrl %>" class="form-control" placeholder="Image URL">
+                        </div>
+
+                        <div class="form-check form-switch mb-2">
+                            <input type="checkbox"
+                                name="categories[<%= categoryIndex %>][items][<%= itemIndex %>][available]"
+                                class="form-check-input" id="available<%= categoryIndex %><%= itemIndex %>"
+                                <%= item.available ? "checked" : "" %>>
+                            <label class="form-check-label" for="available<%= categoryIndex %><%= itemIndex %>">Available</label>
+                        </div>
+
+                        <button type="button" onclick="deleteItem(this)" class="delete-btn">Delete Item</button>
+                    </div>
                 </div>
                 <% }) %>
             </div>
 
-            <button type="button"
-                onclick="addItem(this, <%= categoryIndex %>)">Add Item</button>
+            <div class="mt-3">
+                <button type="button" onclick="addItem(this, <%= categoryIndex %>)"
+                    class="btn btn-primary">Add Item</button>
+            </div>
         </div>
         <% }) %>
     </div>
 
-    <button type="button" onclick="addCategory()">Add Category</button>
-    <button type="submit">Save Changes</button>
+    <div class="section-buttons mt-4">
+        <button type="button" onclick="addCategory()" class="btn btn-success">Add Category</button>
+        <button type="submit" class="btn btn-dark">Save Changes</button>
+    </div>
 </form>
 
 <script>
     function deleteCategory(button) {
-        button.parentElement.remove();
+        button.closest('.category-card').remove();
     }
 
     function deleteItem(button) {
-        button.parentElement.remove();
+        button.closest('.item-card').remove();
     }
 
     function addCategory() {
-        const index = document.querySelectorAll('.category').length;
+        const index = document.querySelectorAll('.category-card').length;
         const categoryDiv = document.createElement('div');
-        categoryDiv.classList.add('category');
+        categoryDiv.className = 'category-card';
         categoryDiv.innerHTML = `
-            <input type="text" name="categories[${index}][name]" placeholder="Category Name" required>
-            <button type="button" onclick="deleteCategory(this)">Delete Category</button>
-            <div class="menu-items"></div>
-            <button type="button" onclick="addItem(this, ${index})">Add Item</button>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <input type="text" name="categories[${index}][name]" class="form-control me-3" style="max-width: 300px;" placeholder="Category Name" required>
+                <button type="button" onclick="deleteCategory(this)" class="delete-btn">Delete Category</button>
+            </div>
+            <div class="row g-3"></div>
+            <div class="mt-3">
+                <button type="button" onclick="addItem(this, ${index})" class="btn btn-primary">Add Item</button>
+            </div>
         `;
         document.getElementById('categories').appendChild(categoryDiv);
     }
 
     function addItem(button, categoryIndex) {
-        const itemIndex = document.querySelectorAll(`.category:nth-child(${categoryIndex + 1}) .item-card`).length;
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('item-card');
-        itemDiv.innerHTML = `
-            <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][name]" placeholder="Item Name" required>
-            <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][description]" placeholder="Description">
-            <input type="number" step="0.01" name="categories[${categoryIndex}][items][${itemIndex}][price]" placeholder="Price" required>
-            <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][imageUrl]" placeholder="Image URL">
-            <label>Available: <input type="checkbox" name="categories[${categoryIndex}][items][${itemIndex}][available]"></label>
-            <button type="button" onclick="deleteItem(this)">Delete Item</button>
+        const categoryCard = button.closest('.category-card');
+        const row = categoryCard.querySelector('.row');
+        const itemIndex = row.querySelectorAll('.item-card').length;
+
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4';
+        col.innerHTML = `
+            <div class="item-card">
+                <div class="mb-2">
+                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][name]"
+                        placeholder="Item Name" required class="form-control">
+                </div>
+                <div class="mb-2">
+                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][description]"
+                        placeholder="Description" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <input type="number" step="0.01" name="categories[${categoryIndex}][items][${itemIndex}][price]"
+                        placeholder="Price" required class="form-control">
+                </div>
+                <div class="mb-2">
+                    <input type="text" name="categories[${categoryIndex}][items][${itemIndex}][imageUrl]"
+                        placeholder="Image URL" class="form-control">
+                </div>
+                <div class="form-check form-switch mb-2">
+                    <input type="checkbox" name="categories[${categoryIndex}][items][${itemIndex}][available]"
+                        class="form-check-input" id="available${categoryIndex}${itemIndex}">
+                    <label class="form-check-label" for="available${categoryIndex}${itemIndex}">Available</label>
+                </div>
+                <button type="button" onclick="deleteItem(this)" class="delete-btn">Delete Item</button>
+            </div>
         `;
-        button.previousElementSibling.appendChild(itemDiv);
+        row.appendChild(col);
     }
 </script>
