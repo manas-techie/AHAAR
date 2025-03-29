@@ -16,7 +16,7 @@ router.post('/signup', wrapAsync(async (req, res) => {
             if (err) {
                 return next(err);
             };
-            res.redirect("/restaurant");
+            res.redirect("/");
         })
 
     } catch (e) {
@@ -24,6 +24,11 @@ router.post('/signup', wrapAsync(async (req, res) => {
         res.redirect("/user/signup");
     }
 }));
+
+
+router.get('/chooselogin', (req, res) => {
+    res.render('user/ChooseLogin')
+});
 
 router.get('/login', saveRedirectUrl, (req, res) => {
     res.render('user/login');
@@ -33,6 +38,10 @@ router.post('/login', saveRedirectUrl, passport.authenticate("local", { failureR
     req.flash("success", "Welcome back");
     res.redirect(res.locals.redirectUrl || "/restaurant");
 }));
+
+router.get('/signup', (req, res) => {
+    res.render('user/signup');
+});
 
 router.get("/logout", (req, res, next) => {
     req.logout((err) => {
