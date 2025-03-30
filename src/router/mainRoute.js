@@ -9,12 +9,22 @@ router.get('/about', (req, res) => {
     res.render('about');
 });
 
+//Choose Login route
 router.get('/chooselogin', (req, res) => {
     res.render('user/ChooseLogin')
 });
 
-router.get('/dashboard', (req, res) => {
-    res.render('dashboard/dashboard');
+//Dashboard route
+router.get('/dashboard', async(req, res) => {
+    if (!req.user) {
+        return res.redirect('/chooselogin');
+    }
+    const userId = req.user._id;
+    const user =  await User.findById(userId);
+    if (!user) {
+        return res.status(404).send("User not found");
+    }
+    res.render('dashboard/dashboard',{user});
 });
 
 module.exports = router;

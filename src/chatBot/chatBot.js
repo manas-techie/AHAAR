@@ -1,7 +1,7 @@
 const { MongoClient, ObjectId } = require('mongodb');
 const { GoogleGenAI } = require('@google/genai');
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyBXDhrHnBylGMUcSnusi9v7lmpFrgkNu2w" });
+const ai = new GoogleGenAI({ apiKey: "AIzaSyBXOV88hOKUR2qCyKTU9LMz0BefeUGC-HU" });
 const uri = "mongodb://localhost:27017/";
 const client = new MongoClient(uri);
 
@@ -30,8 +30,14 @@ async function askGemini(menuData, question) {
     if (!menuData) return "Sorry, I couldn't find the menu.";
 
     const prompt = `
-        You are a helpful AI assistant acting like a human assistant. Always give the answer in short. You can also give answer in 5 to 10 words on average.
-        If the question is unrelated to the menu, say "I am not sure about that."
+        You are a helpful AI assistant for AHAAR.
+        
+        - If the conversation starts with "Hi" or "Hello," say: "Hello! I am AHAAR's assistant. How can I help you today?"  
+        - If the question is completly unrelated to the menu, say: "I am not sure about that." other wise try to answer the question using the review and menu data and you knowdege from internate.  
+        - Keep answers short (5 to 10 words).  
+        - If asked for menu recommendations, suggest items based on customer reviews.  
+        - If asked why an item is recommended, refer to customer reviews.  
+        - If no reviews are available, say: "This item is popular among customers."  
         
         Here is the menu information:
         ${JSON.stringify(menuData.menu, null, 2)}
@@ -43,7 +49,7 @@ async function askGemini(menuData, question) {
     `;
 
     const response = await ai.models.generateContent({
-        model: "gemini-1.5-pro-latest",
+        model: "gemini-2.0-flash",
         contents: [{ role: "user", parts: [{ text: prompt }] }],
         generationConfig: { maxOutputTokens: 300, temperature: 0.7 },
     });
