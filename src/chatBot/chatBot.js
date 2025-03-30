@@ -1,7 +1,8 @@
 const { MongoClient, ObjectId } = require('mongodb');
 const { GoogleGenAI } = require('@google/genai');
+require('dotenv').config();
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyBXOV88hOKUR2qCyKTU9LMz0BefeUGC-HU" });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const uri = "mongodb://localhost:27017/";
 const client = new MongoClient(uri);
 
