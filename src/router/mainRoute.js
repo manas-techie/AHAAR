@@ -13,4 +13,8 @@ router.get('/chooselogin', (req, res) => {
     res.render('user/ChooseLogin')
 });
 
+router.get('/dashboard', (req, res) => {
+    res.render('dashboard/dashboard');
+});
+
 module.exports = router;
