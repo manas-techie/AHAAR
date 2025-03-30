@@ -9,7 +9,7 @@ main()
     .catch(err => console.log(err));
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/ahaar');
+    await mongoose.connect('mongodb+srv://manas:manas%40123@cluster0.3hfx3s1.mongodb.net/ahaar?retryWrites=true&w=majority&appName=Cluster0');
 
 }
 
