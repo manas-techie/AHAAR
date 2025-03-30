@@ -136,6 +136,7 @@ router.get('/:currUserId/chatbot', async (req, res) => {
     let { currUserId } = req.params;
     try {
         const menu = await Menu.findOne({ owner: currUserId }).populate({path:"reviews", populate:{path:"author"} });
+        req.app.locals.menuId = menu._id;
         if (!menu) {
             return res.status(404).send("Menu not found");
         }

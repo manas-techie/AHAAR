@@ -99,7 +99,7 @@ io.on("connection", (socket) => {
     socket.on("userMessage", async (message) => {
 
         try {
-            const menuId = "67e7d50baa286df6dea9b8db"; // Use a dynamic menuId if needed
+            const menuId = app.locals.menuId; // Use a dynamic menuId if needed
             const menuData = await getMenuWithReviews(menuId);
             const botResponse = await askGemini(menuData, message);
             socket.emit("botMessage", botResponse);

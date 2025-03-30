@@ -1,7 +1,7 @@
 const { MongoClient, ObjectId } = require('mongodb');
 const { GoogleGenAI } = require('@google/genai');
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyDBeM9tRA4vPBhZD9KO6jgCTBg2roRtB_k" });
+const ai = new GoogleGenAI({ apiKey: "AIzaSyBXDhrHnBylGMUcSnusi9v7lmpFrgkNu2w" });
 const uri = "mongodb://localhost:27017/";
 const client = new MongoClient(uri);
 
@@ -12,7 +12,8 @@ async function getMenuWithReviews(menuId) {
         const menuCollection = database.collection("menus");
         const reviewCollection = database.collection("menureviews");
 
-        const menu = await menuCollection.findOne({ _id: new ObjectId(menuId) });
+        const menu = await menuCollection.findOne({ _id: menuId });
+        //  console.log(menu)
         if (!menu) {
             throw new Error("Menu not found");
         }
