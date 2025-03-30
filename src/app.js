@@ -33,7 +33,7 @@ const { getMenuWithReviews, askGemini } = require('./chatBot/chatBot.js');
 
 
 const sessionOptions = {
-    secret: "mysecret",
+    secret: process.env.MY_SCRECT,
     resave: false,
     saveUninitialized: true,
     cookie: {

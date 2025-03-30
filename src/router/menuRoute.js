@@ -120,7 +120,7 @@ router.post('/:currUserId/edit', async (req, res) => {
 router.get("/:currUserId/qrcode", (req, res) => {
     let { currUserId } = req.params;
     // const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    let fullUrl = `${req.protocol}://192.168.27.76:3000/menu/${currUserId}`;
+    let fullUrl = `https://ahaar-6ycm.onrender.com/menu/${currUserId}`;
 
     QRCode.toDataURL(fullUrl, function (err, qrUrl) {
         if (err) {
