@@ -1,7 +1,7 @@
 const express = require('express');
 const { isLoggesIn, saveRedirectUrl } = require('../middlewares/userMiddleware');
 const Menu = require('../model/menuModel');
-const menuReview = require("../model/menuReviewModel")
+const menuReview = require("../../public/assets/menuReviewModel")
 const router = express.Router({ mergeParams: true });
 
 router.post('/:id/menureview', isLoggesIn, async (req, res) => {

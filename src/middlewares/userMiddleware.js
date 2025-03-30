@@ -17,7 +17,7 @@ module.exports.saveRedirectUrl = (req, res, next) => {
 };
 
 
-module.exports.isOwner = async (req, res, next) => {kkkkkkkkkkkkkkkkkkkkkk
+module.exports.isOwner = async (req, res, next) => {
     let { id } = req.params;
     let restaurant = await Restaurant.findById(id);
     if (!restaurant.owner.equals(res.locals.currUser._id)) {
