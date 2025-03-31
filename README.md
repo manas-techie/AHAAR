@@ -40,7 +40,7 @@ Ahaar is built using a modern, scalable, and robust technology stack to ensure h
 - **Backend:** Node.js, Express.js
 - **Frontend:** EJS
 - **Database:** MongoDB
-- **AI & ML Integration**
+- **AI Integration**
 - **Mapping & Navigation:** Mapbox API
 
 ## 🔥 Unique Selling Proposition (USP)
