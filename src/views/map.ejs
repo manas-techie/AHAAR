@@ -1,0 +1,91 @@
+<% layout('layout/boilerplate.ejs') %>
+
+<style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #222;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    #map {
+      flex: 1;
+      width: 100%;
+      height: 80vh;
+    }
+
+    @media (max-width: 768px) {
+      #map {
+        height: 70vh;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+</head>
+<body>
+
+  <header>
+    <h1>Nearby Restaurants</h1>
+  </header>
+
+  <div id="map"></div>
+
+  <script>
+    mapboxgl.accessToken = '<%= mapboxToken %>';
+
+    navigator.geolocation.getCurrentPosition(success, error, {
+      enableHighAccuracy: true
+    });
+
+    function success(position) {
+      const userCoords = [position.coords.longitude, position.coords.latitude];
+
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: userCoords,
+        zoom: 13
+      });
+
+      new mapboxgl.Marker({ color: 'blue' })
+        .setLngLat(userCoords)
+        .setPopup(new mapboxgl.Popup().setText("You are here"))
+        .addTo(map);
+
+      fetch(`/nearby-restaurants?lng=${userCoords[0]}&lat=${userCoords[1]}`)
+        .then(res => res.json())
+        .then(data => {
+          data.features.forEach(place => {
+            const coords = place.geometry.coordinates;
+            const name = place.text;
+            new mapboxgl.Marker({ color: 'red' })
+              .setLngLat(coords)
+              .setPopup(new mapboxgl.Popup().setText(name))
+              .addTo(map);
+          });
+        });
+    }
+
+    function error() {
+      alert("Unable to retrieve your location.");
+    }
+  </script>
+</body>

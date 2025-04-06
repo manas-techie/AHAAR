@@ -28,6 +28,7 @@ const userRoute = require('./router/userRoute.js');
 const reviewRoute = require('./router/reviewRoute.js');
 const menuRoute = require('./router/menuRoute.js');
 const menuReviewRoute = require('./router/menuReviewRoute.js');
+const mapRoute = require('./router/mapRoute.js');
 
 const { getMenuWithReviews, askGemini } = require('./chatBot/chatBot.js');
 
@@ -75,6 +76,7 @@ app.use('/dealer', userRoute);
 app.use('/restaurant/:id/review', reviewRoute);
 app.use('/menu', menuRoute);
 app.use('/menu',menuReviewRoute);
+app.use('/', mapRoute);
 
 
 
