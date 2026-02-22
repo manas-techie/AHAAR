@@ -7,19 +7,21 @@ const wrapAsync = require("../utils/wrapAsync.js")
 
 
 
-router.post('/signup', wrapAsync(async (req, res) => {
+router.post('/signup', wrapAsync(async (req, res, next) => {
     try {
         let { email, username, password } = req.body;
         const newUser = new User({ email, username });
         let registerUser = await User.register(newUser, password);
-        req.login(registerUser, (err) => {
-            if (err) {
-                return next(err);
-            };
-            res.redirect("/");
-        })
-
+        await new Promise((resolve, reject) => {
+            req.login(registerUser, (err) => {
+                if (err) return reject(err);
+                resolve();
+            });
+        });
+        req.flash("success", "Welcome to AHAAR!");
+        res.redirect("/");
     } catch (e) {
+        console.error("SIGNUP ERROR:", e.stack || e.message);
         req.flash("error", e.message);
         res.redirect("/dealer/signup");
     }
